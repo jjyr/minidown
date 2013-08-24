@@ -1,9 +1,9 @@
 require "sumdown/version"
 require 'nokogiri'
 require 'sumdown/parser'
+require 'sumdown/elements'
 require 'sumdown/document'
 require 'sumdown/utils'
-require 'sumdown/elements'
 
 module Sumdown
   class << self

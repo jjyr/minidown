@@ -56,5 +56,18 @@ HERE
         end
       end
     end
+
+    describe '######h6' do
+      it 'should parse "#" as text' do
+        Sumdown.parse('#').to_html.should == '#'
+      end
+
+      it 'should parse "#####"' do
+        (2..7).map{|n| '#' * n}.each do |str|
+          tag = "h#{str.size - 1}"
+          Sumdown.parse(str).to_html.should == "<#{tag}>#</#{tag}>"
+        end
+      end
+    end
   end
 end

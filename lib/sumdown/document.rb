@@ -16,25 +16,35 @@ module Sumdown
       doc
     end
 
+    # define short cut methods
+    # TextElement => te, HtmlElement => ht ... Something => st
+    [TextElement, HtmlElement, LineElement].each do |klass|
+      method_name = klass.name.split("::").last.scan(/[A-Z]/).join.downcase
+      define_method method_name do |*args|
+        klass.new self, *args
+      end
+    end
+
     def parse_line line
       regexp = Sumdown::Utils::Regexp
       case line
       when regexp[:blank_line]
         # blankline
-        LineElement.new self, line
+        le line
       when regexp[:h1_or_h2]
         # ======== or -------
         @lines.unshift $2 if $2
         if pre_blank?
-          TextElement.new self, $1
+          te  $1
         else
-          HtmlElement.new self, @nodes.pop, (line[0] == '=' ? 'h1' : 'h2')
+          he @nodes.pop, (line[0] == '=' ? 'h1' : 'h2')
         end
       when regexp[:start_with_shape]
         # ####h4
-        HtmlElement.new self, $2, "h#{$1.size}"
+        te $2
+        he @nodes.pop, "h#{$1.size}"
       else
-        TextElement.new self, line
+        te line
       end
     end
     
