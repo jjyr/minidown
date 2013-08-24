@@ -6,10 +6,10 @@ require 'sumdown/version'
 Gem::Specification.new do |spec|
   spec.name          = "sumdown"
   spec.version       = Sumdown::VERSION
-  spec.authors       = ["TODO: Write your name"]
+  spec.authors       = ["jjy"]
   spec.email         = ["jjyruby@gmail.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
+  spec.description   = %q{Yet another simple & light weight markdown parser}
+  spec.summary       = %q{sumdown mean [s]how yo[u] [m]ark[down]}
   spec.homepage      = ""
   spec.license       = "MIT"
 

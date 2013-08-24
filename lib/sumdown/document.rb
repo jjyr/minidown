@@ -24,9 +24,9 @@ module Sumdown
         LineElement.new self, line
       when regexp[:h1_or_h2]
         # ======== or -------
-        @lines.unshift $1 if $1
+        @lines.unshift $2 if $2
         if pre_blank?
-          TextElement.new self, line
+          TextElement.new self, $1
         else
           HtmlElement.new self, @nodes.pop, (line[0] == '=' ? 'h1' : 'h2')
         end
