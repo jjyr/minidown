@@ -16,10 +16,11 @@ module Sumdown
       doc
     end
 
-    # define short cut methods
+    # define short methods
     # TextElement => te, HtmlElement => ht ... Something => st
     [TextElement, HtmlElement, LineElement].each do |klass|
       method_name = klass.name.split("::").last.scan(/[A-Z]/).join.downcase
+      raise 'method name dup' if method_defined? method_name
       define_method method_name do |*args|
         klass.new self, *args
       end
@@ -35,7 +36,7 @@ module Sumdown
         # ======== or -------
         @lines.unshift $2 if $2
         if pre_blank?
-          te  $1
+          te $1
         else
           he @nodes.pop, (line[0] == '=' ? 'h1' : 'h2')
         end
