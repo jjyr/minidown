@@ -1,5 +1,7 @@
 module Sumdown
   class Document
+    attr_accessor :lines, :nodes
+    
     def initialize lines
       @lines = lines
       @nodes = []
@@ -7,17 +9,30 @@ module Sumdown
 
     def parse
       while line = @lines.shift
-        
+        parse_line line
       end
+      doc = Nokogiri::HTML::Document.new
+      doc.push *@nodes.map{|e| e.to_node doc}
+      doc
     end
 
     def parse_line line
+      regexp = Sumdown::Utils::Regexp
       case line
-        # ========
-      when /\A={3,}/
+      when regexp[:blank_line]
+        # blankline
+        LineElement.new self, line
+      when regexp[:h1_or_h2]
+        # ======== or -------
+        @lines.unshift $1 if $1
         if pre_blank?
-          Line.new :text, line
+          TextElement.new self, line
+        else
+          HtmlElement.new self, @nodes.pop, (line[0] == '=' ? 'h1' : 'h2')
         end
+      when regexp[:start_with_shape]
+        # ####h4
+        HtmlElement.new self, $2, "h#{$1.size}"
       end
     end
     
@@ -26,6 +41,5 @@ module Sumdown
       node = @nodes.last
       node.nil? || node.blank?
     end
-    
   end
 end

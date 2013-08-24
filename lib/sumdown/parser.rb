@@ -4,20 +4,23 @@ module Sumdown
       @str = str
     end
 
+    def to_html
+      result.children.to_html
+    end
+
+    # return Nokogiri::HTML::Document
     def result
       @result ||= parse
     end
 
     protected
     def parse
-      doc = Document.new line_parsers
+      doc = Document.new lines
       doc.parse
     end
 
-    def line_parsers
-      @str.lines(/\n|\r\n/).map do |line|
-        LineParser.new line
-      end
+    def lines
+      @str.lines
     end
   end
 end
