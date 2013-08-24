@@ -1,9 +1,11 @@
-module LineElement
-  def parse
-    @nodes << self unless @nodes.last.is_a?(LineElement)
-  end
+module Sumdown
+  class LineElement < Element
+    def parse
+      @nodes << self unless @nodes.last.is_a?(LineElement)
+    end
 
-  def to_node doc
-    Nokogiri::XML::Node.new 'br', doc
+    def to_node doc
+      Nokogiri::XML::Node.new 'br', doc
+    end
   end
 end

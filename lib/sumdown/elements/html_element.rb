@@ -10,8 +10,8 @@ module Sumdown
     end
 
     def to_node doc
-      node = Nokogiri::XML::Node.new name, doc
-      node.children = content
+      node = Nokogiri::XML::Node.new @name, doc
+      node.children = content.to_node(doc)
       node
     end
   end

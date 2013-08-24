@@ -11,8 +11,8 @@ module Sumdown
       while line = @lines.shift
         parse_line line
       end
-      doc = Nokogiri::HTML::Document.new
-      doc.push *@nodes.map{|e| e.to_node doc}
+      doc = Nokogiri::HTML::DocumentFragment.parse ''
+      @nodes.each{|e| doc << e.to_node(doc)}
       doc
     end
 
@@ -33,6 +33,8 @@ module Sumdown
       when regexp[:start_with_shape]
         # ####h4
         HtmlElement.new self, $2, "h#{$1.size}"
+      else
+        TextElement.new self, line
       end
     end
     

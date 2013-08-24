@@ -3,7 +3,7 @@ require 'nokogiri'
 require 'sumdown/parser'
 require 'sumdown/document'
 require 'sumdown/utils'
-require 'sumdown/element'
+require 'sumdown/elements'
 
 module Sumdown
   class << self

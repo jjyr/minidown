@@ -8,7 +8,7 @@ module Sumdown
       result.children.to_html
     end
 
-    # return Nokogiri::HTML::Document
+    # return Nokogiri::HTML::DocumentFragment
     def result
       @result ||= parse
     end

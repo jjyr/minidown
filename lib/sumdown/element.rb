@@ -1,9 +1,5 @@
-require 'element/html_element'
-require 'element/line_element'
-require 'element/text_element'
-
 module Sumdown
-  class Eelement
+  class Element
     attr_reader :content
         
     BlankTypes = [:enter, :blank_line]
