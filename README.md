@@ -1,4 +1,4 @@
-# Sumdown
+# Minidown
 
 TODO: Write a gem description
 
@@ -6,7 +6,7 @@ TODO: Write a gem description
 
 Add this line to your application's Gemfile:
 
-    gem 'sumdown'
+    gem 'minidown'
 
 And then execute:
 
@@ -14,7 +14,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install sumdown
+    $ gem install minidown
 
 ## Usage
 

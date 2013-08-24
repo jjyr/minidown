@@ -1,4 +1,4 @@
-module Sumdown
+module Minidown
   class LineElement < Element
     def parse
       @nodes << self unless @nodes.last.is_a?(LineElement)

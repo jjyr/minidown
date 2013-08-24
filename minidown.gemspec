@@ -1,15 +1,15 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'sumdown/version'
+require 'minidown/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "sumdown"
-  spec.version       = Sumdown::VERSION
+  spec.name          = "minidown"
+  spec.version       = Minidown::VERSION
   spec.authors       = ["jjy"]
   spec.email         = ["jjyruby@gmail.com"]
   spec.description   = %q{Yet another simple & light weight pure ruby markdown parser}
-  spec.summary       = %q{sumdown mean [s]how yo[u] [m]ark[down]}
+  spec.summary       = %q{Minidown is a markdown parser}
   spec.homepage      = ""
   spec.license       = "MIT"
 

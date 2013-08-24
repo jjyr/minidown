@@ -1,4 +1,4 @@
-module Sumdown
+module Minidown
   class Parser
     def initialize str
       @str = str

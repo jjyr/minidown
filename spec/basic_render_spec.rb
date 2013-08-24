@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-describe Sumdown do
+describe Minidown do
   describe '.parse' do
     describe '======== or -------' do
       it 'should parse as text' do
         %w{===== ------ =====hello ------nihao}.each do |str|
-          Sumdown.parse(str).to_html.should == str
+          Minidown.parse(str).to_html.should == str
         end
       end
 
@@ -16,9 +16,9 @@ h1
 #{s}
 HERE
           if s.size < 3
-            Sumdown.parse(str).to_html.should == "h1#{s}"
+            Minidown.parse(str).to_html.should == "h1#{s}"
           else
-            Sumdown.parse(str).to_html.should == "<h1>h1</h1>"
+            Minidown.parse(str).to_html.should == "<h1>h1</h1>"
           end
         end
       end
@@ -30,9 +30,9 @@ h2
 #{s}
 HERE
           if s.size < 3
-            Sumdown.parse(str).to_html.should == "h2#{s}"
+            Minidown.parse(str).to_html.should == "h2#{s}"
           else
-            Sumdown.parse(str).to_html.should == "<h2>h2</h2>"
+            Minidown.parse(str).to_html.should == "<h2>h2</h2>"
           end
         end
       end
@@ -44,7 +44,7 @@ title
 #{s}should show text
 HERE
           tag = (s[0] == '-' ? 'h2' : 'h1')
-          Sumdown.parse(str).to_html.should == "<#{tag}>title</#{tag}>should show text"
+          Minidown.parse(str).to_html.should == "<#{tag}>title</#{tag}>should show text"
         end
       end
     end
@@ -52,26 +52,26 @@ HERE
     describe 'blank line' do
       it 'should parse as nothing' do
         ['', "\n", "\n\n", "\n\n\n\n"].each do |str|
-          Sumdown.parse(str).to_html.should == ''
+          Minidown.parse(str).to_html.should == ''
         end
       end
 
       it 'should parse <br>' do
         ["\na", "\n \n", "\n \n\n\n", "\n\n h"].each do |str|
-          Sumdown.parse(str).to_html.should == "<br>#{str.split(Sumdown::Utils::Regexp[:lines]).last}".strip
+          Minidown.parse(str).to_html.should == "<br>#{str.split(Minidown::Utils::Regexp[:lines]).last}".strip
         end
       end
     end
 
     describe '###### title' do
       it 'should parse "#" as text' do
-        Sumdown.parse('#').to_html.should == '#'
+        Minidown.parse('#').to_html.should == '#'
       end
 
       it 'should parse "#####"' do
         (2..7).map{|n| '#' * n}.each do |str|
           tag = "h#{str.size - 1}"
-          Sumdown.parse(str).to_html.should == "<#{tag}>#</#{tag}>"
+          Minidown.parse(str).to_html.should == "<#{tag}>#</#{tag}>"
         end
       end
 
@@ -79,7 +79,7 @@ HERE
         str =<<HERE
 #### h4 ######
 HERE
-        Sumdown.parse(str).to_html.should == "<h4>h4</h4>"
+        Minidown.parse(str).to_html.should == "<h4>h4</h4>"
       end
     end
   end

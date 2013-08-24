@@ -1,4 +1,4 @@
-module Sumdown
+module Minidown
   class Document
     attr_accessor :lines, :nodes
     
@@ -27,7 +27,7 @@ module Sumdown
     end
 
     def parse_line line
-      regexp = Sumdown::Utils::Regexp
+      regexp = Minidown::Utils::Regexp
       case line
       when regexp[:blank_line]
         # blankline

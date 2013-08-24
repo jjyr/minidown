@@ -1,4 +1,4 @@
-module Sumdown
+module Minidown
   module Utils
     Regexp = {
       lines: /\n|\r\n/,

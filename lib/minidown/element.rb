@@ -1,4 +1,4 @@
-module Sumdown
+module Minidown
   class Element
     attr_reader :content
         

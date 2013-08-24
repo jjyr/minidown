@@ -1,4 +1,4 @@
-module Sumdown
+module Minidown
   class HtmlElement < Element
     def initialize doc, content, name
       super doc, content

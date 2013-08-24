@@ -1,4 +1,4 @@
-module Sumdown
+module Minidown
   class TextElement < Element
     def parse
       @doc.nodes << self

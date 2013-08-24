@@ -1,2 +1,2 @@
-require 'sumdown'
+require 'minidown'
 require 'pry'
