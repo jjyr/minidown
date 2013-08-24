@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.version       = Sumdown::VERSION
   spec.authors       = ["jjy"]
   spec.email         = ["jjyruby@gmail.com"]
-  spec.description   = %q{Yet another simple & light weight markdown parser}
+  spec.description   = %q{Yet another simple & light weight pure ruby markdown parser}
   spec.summary       = %q{sumdown mean [s]how yo[u] [m]ark[down]}
   spec.homepage      = ""
   spec.license       = "MIT"

@@ -34,7 +34,7 @@ module Sumdown
         le line
       when regexp[:h1_or_h2]
         # ======== or -------
-        @lines.unshift $2 if $2
+        @lines.unshift $2 if $2 && !$2.empty?
         if pre_blank?
           te $1
         else

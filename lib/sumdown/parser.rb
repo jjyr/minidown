@@ -20,7 +20,7 @@ module Sumdown
     end
 
     def lines
-      @str.lines
+      @str.split Utils::Regexp[:lines]
     end
   end
 end
