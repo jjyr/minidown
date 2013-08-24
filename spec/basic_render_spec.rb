@@ -37,5 +37,13 @@ HERE
         end
       end
     end
+
+    describe 'blank line' do
+      it 'should parse as <br>' do
+        ['', "\n", "\n\n", "\n\n\n\n", "\n\n\n \n\n    \n\n"].each do |str|
+          Sumdown.parse(str).to_html.should == (str.size > 0 ? "<br>" : '')
+        end
+      end
+    end
   end
 end
