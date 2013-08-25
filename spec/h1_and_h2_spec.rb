@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Minidown do
-  describe '.parse' do
+  describe '.parse'do
     describe '======== or -------' do
       it 'should parse as text' do
         %w{===== ------ =====hello ------nihao}.each do |str|
@@ -46,44 +46,6 @@ HERE
           tag = (s[0] == '-' ? 'h2' : 'h1')
           Minidown.parse(str).to_html.should == "<#{tag}>title</#{tag}><p>should show text</p>"
         end
-      end
-    end
-
-    describe 'blank line' do
-      it 'should parse as nothing' do
-        ['', "\n", "\n\n", "\n\n\n\n"].each do |str|
-          Minidown.parse(str).to_html.should == ''
-        end
-      end
-
-      it 'should parse <br>' do
-        str = "\na"
-        Minidown.parse(str).to_html.should == "<br><p>a</p>"
-        str = "\n\n h"
-        Minidown.parse(str).to_html.should == "<br><p> h</p>"
-        ["\n \n", "\n \n\n\n"].each do |str|
-          Minidown.parse(str).to_html.should == "<br>#{str.split(Minidown::Utils::Regexp[:lines]).last}".strip
-        end
-      end
-    end
-
-    describe '###### title' do
-      it 'should parse "#" as text' do
-        Minidown.parse('#').to_html.should == '<p>#</p>'
-      end
-
-      it 'should parse "#####"' do
-        (2..7).map{|n| '#' * n}.each do |str|
-          tag = "h#{str.size - 1}"
-          Minidown.parse(str).to_html.should == "<#{tag}>#</#{tag}>"
-        end
-      end
-
-      it 'should ignore blank' do
-        str =<<HERE
-#### h4 ######
-HERE
-        Minidown.parse(str).to_html.should == "<h4>h4</h4>"
       end
     end
   end
