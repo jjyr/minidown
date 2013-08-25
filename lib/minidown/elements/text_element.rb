@@ -1,6 +1,6 @@
 module Minidown
   class TextElement < Element
-    EscapeChars = %w{#}
+    EscapeChars = %w{# >}
     EscapeRegexp = /\\([#{EscapeChars.join '|'}])/
     
     def parse
@@ -12,9 +12,7 @@ module Minidown
     end
 
     def to_node doc
-      node = Nokogiri::XML::Node.new "p", doc
-      node.content = content
-      node
+      content
     end
   end
 end

@@ -16,7 +16,7 @@ h1
 #{s}
 HERE
           if s.size < 3
-            Minidown.parse(str).to_html.should == "<p>h1#{s}</p>"
+            Minidown.parse(str).to_html.should == "<p>h1<br>#{s}</p>"
           else
             Minidown.parse(str).to_html.should == "<h1>h1</h1>"
           end
@@ -30,7 +30,7 @@ h2
 #{s}
 HERE
           if s.size < 3
-            Minidown.parse(str).to_html.should == "<p>h2#{s}</p>"
+            Minidown.parse(str).to_html.should == "<p>h2<br>#{s}</p>"
           else
             Minidown.parse(str).to_html.should == "<h2>h2</h2>"
           end

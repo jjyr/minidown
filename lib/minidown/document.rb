@@ -34,10 +34,10 @@ module Minidown
         le line
       when regexp[:h1_or_h2]
         # ======== or -------
-        lines.unshift $2 if $2 && !$2.empty?
         if pre_blank?
-          pe $1
+          pe line
         else
+          lines.unshift $2 if $2 && !$2.empty?
           he nodes.pop, (line[0] == '=' ? 'h1' : 'h2')
         end
       when regexp[:start_with_shape]

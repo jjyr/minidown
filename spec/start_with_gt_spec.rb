@@ -60,5 +60,12 @@ another p'
 </blockquote>'
       end
     end
+
+    describe 'should allow escape' do
+      it 'should render correct' do
+        str = '>\>block'
+        Minidown.parse(str).to_html.should == '<blockquote><p>&gt;block</p></blockquote>'
+      end
+    end
   end
 end

@@ -13,8 +13,6 @@ module Minidown
         when LineElement
           unparsed_lines.unshift child_line
           unparsed_lines.unshift nil
-        when ParagraphElement
-          TextElement.new(doc, child.raw_content).parse
         else
           nodes << child
         end
@@ -26,28 +24,9 @@ module Minidown
 
     def to_node doc
       node = Nokogiri::XML::Node.new 'blockquote', doc
-      new_p_tag = ->(){Nokogiri::XML::Node.new 'p', doc}
-      new_br_tag = ->(){Nokogiri::XML::Node.new 'br', doc}
-      p_tag = nil
-      push_content = ->(content=nil){
-        if content.nil?
-          return if p_tag.nil? || p_tag.children.empty?
-          node << p_tag
-          p_tag = nil
-        else
-          p_tag ? (p_tag << new_br_tag.()) : (p_tag = new_p_tag.())
-          p_tag << content
-        end
-      }
       children.each do |child|
-        if TextElement === child
-          push_content.(child.raw_content)
-        else
-          push_content.()
-          node << child.to_node(doc)
-        end
+        node << child.to_node(doc)
       end
-      push_content.()
       node
     end
   end

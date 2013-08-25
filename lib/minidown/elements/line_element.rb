@@ -2,14 +2,21 @@ module Minidown
   class LineElement < Element
     def initialize doc, content=nil
       super
+      @display = true
     end
     
     def parse
-      nodes << self unless nodes.last.is_a?(LineElement)
+      node = nodes.last
+      @display = !(LineElement === node || ParagraphElement === node)
+      nodes << self
     end
 
     def to_node doc
-      Nokogiri::XML::Node.new 'br', doc
+      if @display
+        Nokogiri::XML::Node.new 'br', doc
+      else
+        ''
+      end
     end
   end
 end
