@@ -42,7 +42,7 @@ module Minidown
         end
       when regexp[:start_with_shape]
         # ####h4
-        te $2
+        parse_line $2
         he @nodes.pop, "h#{$1.size}"
       else
         te line

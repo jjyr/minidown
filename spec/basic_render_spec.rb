@@ -5,7 +5,7 @@ describe Minidown do
     describe '======== or -------' do
       it 'should parse as text' do
         %w{===== ------ =====hello ------nihao}.each do |str|
-          Minidown.parse(str).to_html.should == str
+          Minidown.parse(str).to_html.should == "<p>#{str}</p>"
         end
       end
 
@@ -16,7 +16,7 @@ h1
 #{s}
 HERE
           if s.size < 3
-            Minidown.parse(str).to_html.should == "h1#{s}"
+            Minidown.parse(str).to_html.should == "<p>h1#{s}</p>"
           else
             Minidown.parse(str).to_html.should == "<h1>h1</h1>"
           end
@@ -30,7 +30,7 @@ h2
 #{s}
 HERE
           if s.size < 3
-            Minidown.parse(str).to_html.should == "h2#{s}"
+            Minidown.parse(str).to_html.should == "<p>h2#{s}</p>"
           else
             Minidown.parse(str).to_html.should == "<h2>h2</h2>"
           end
@@ -44,7 +44,7 @@ title
 #{s}should show text
 HERE
           tag = (s[0] == '-' ? 'h2' : 'h1')
-          Minidown.parse(str).to_html.should == "<#{tag}>title</#{tag}>should show text"
+          Minidown.parse(str).to_html.should == "<#{tag}>title</#{tag}><p>should show text</p>"
         end
       end
     end
@@ -57,7 +57,11 @@ HERE
       end
 
       it 'should parse <br>' do
-        ["\na", "\n \n", "\n \n\n\n", "\n\n h"].each do |str|
+        str = "\na"
+        Minidown.parse(str).to_html.should == "<br><p>a</p>"
+        str = "\n\n h"
+        Minidown.parse(str).to_html.should == "<br><p> h</p>"
+        ["\n \n", "\n \n\n\n"].each do |str|
           Minidown.parse(str).to_html.should == "<br>#{str.split(Minidown::Utils::Regexp[:lines]).last}".strip
         end
       end
@@ -65,7 +69,7 @@ HERE
 
     describe '###### title' do
       it 'should parse "#" as text' do
-        Minidown.parse('#').to_html.should == '#'
+        Minidown.parse('#').to_html.should == '<p>#</p>'
       end
 
       it 'should parse "#####"' do

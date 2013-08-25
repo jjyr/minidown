@@ -2,6 +2,10 @@ module Minidown
   class Element
     attr_reader :content, :doc, :nodes
 
+    def raw_content
+      @content
+    end
+
     def unparsed_lines
       doc.lines
     end
