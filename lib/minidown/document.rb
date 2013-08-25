@@ -18,7 +18,7 @@ module Minidown
 
     # define short methods
     # TextElement => te, HtmlElement => ht ... Something => st
-    [TextElement, HtmlElement, LineElement].each do |klass|
+    [TextElement, HtmlElement, LineElement, BlockElement].each do |klass|
       method_name = klass.name.split("::").last.scan(/[A-Z]/).join.downcase
       raise 'method name dup' if method_defined? method_name
       define_method method_name do |*args|
@@ -44,7 +44,12 @@ module Minidown
         # ####h4
         parse_line $2
         he nodes.pop, "h#{$1.size}"
+      when regexp[:start_with_quote]
+        #binding.pry
+        # > blockquote        
+        be $1
       else
+        # text
         te line
       end
     end

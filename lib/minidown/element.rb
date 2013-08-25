@@ -1,9 +1,13 @@
 module Minidown
   class Element
-    attr_reader :content, :doc, :nodes
+    attr_accessor :content, :doc, :nodes, :children
 
     def raw_content
       @content
+    end
+
+    def raw_content= str
+      @content = str
     end
 
     def unparsed_lines
@@ -16,6 +20,7 @@ module Minidown
       @doc = doc
       @nodes = doc.nodes
       @content = content
+      @children = []
       parse
     end
 
