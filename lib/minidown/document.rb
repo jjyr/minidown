@@ -34,16 +34,16 @@ module Minidown
         le line
       when regexp[:h1_or_h2]
         # ======== or -------
-        @lines.unshift $2 if $2 && !$2.empty?
+        lines.unshift $2 if $2 && !$2.empty?
         if pre_blank?
           te $1
         else
-          he @nodes.pop, (line[0] == '=' ? 'h1' : 'h2')
+          he nodes.pop, (line[0] == '=' ? 'h1' : 'h2')
         end
       when regexp[:start_with_shape]
         # ####h4
         parse_line $2
-        he @nodes.pop, "h#{$1.size}"
+        he nodes.pop, "h#{$1.size}"
       else
         te line
       end
