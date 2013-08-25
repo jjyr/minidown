@@ -41,9 +41,20 @@ newline'
       it '<p> in li' do
         str = '* li1
     newline
+
 * li2
 newline'
         Minidown.parse(str).to_html.should == '<ul><li><p>li1<br>    newline</p></li><li><p>li2<br>newline</p></li></ul>'
+      end
+
+      it 'two ul' do
+        str = '- li1
+    newline
+
+
+* li2
+newline'
+        Minidown.parse(str).to_html.should == '<ul><li>li1<br>    newline</li></ul><ul><li>li2<br>newline</li></ul>'
       end
     end
 
@@ -92,9 +103,20 @@ newline'
       it '<p> in li' do
         str = '1. li1
     newline
+
 2. li2
 newline'
         Minidown.parse(str).to_html.should == '<ol><li><p>li1<br>    newline</p></li><li><p>li2<br>newline</p></li></ol>'
+      end
+
+      it 'two ol' do
+        str = '1. li1
+    newline
+
+
+2. li2
+newline'
+        Minidown.parse(str).to_html.should == '<ol><li>li1<br>    newline</li></ol><ol><li>li2<br>newline</li></ol>'
       end
     end
   end
