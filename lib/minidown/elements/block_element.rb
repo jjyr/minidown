@@ -14,9 +14,7 @@ module Minidown
           unparsed_lines.unshift child_line
           unparsed_lines.unshift nil
         when ParagraphElement
-          #nodes << LineElement.new(doc)
           TextElement.new(doc, child.raw_content).parse
-          #content << child.raw_content
         else
           nodes << child
         end
