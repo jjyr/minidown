@@ -21,7 +21,6 @@ module Minidown
       @nodes = doc.nodes
       @content = content
       @children = []
-      parse
     end
 
     def parse

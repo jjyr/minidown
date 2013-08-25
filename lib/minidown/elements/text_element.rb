@@ -4,11 +4,7 @@ module Minidown
     EscapeRegexp = /\\([#{EscapeChars.join '|'}])/
     
     def parse
-      if TextElement === nodes.last
-        nodes.last.raw_content << raw_content
-      else
-        nodes << self
-      end
+      nodes << self
     end
 
     def content

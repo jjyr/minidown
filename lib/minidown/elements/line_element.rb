@@ -1,5 +1,9 @@
 module Minidown
   class LineElement < Element
+    def initialize doc, content=nil
+      super
+    end
+    
     def parse
       nodes << self unless nodes.last.is_a?(LineElement)
     end

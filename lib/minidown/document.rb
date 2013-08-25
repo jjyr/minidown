@@ -18,11 +18,11 @@ module Minidown
 
     # define short methods
     # TextElement => te, HtmlElement => ht ... Something => st
-    [TextElement, HtmlElement, LineElement, BlockElement].each do |klass|
+    [TextElement, HtmlElement, LineElement, BlockElement, ParagraphElement].each do |klass|
       method_name = klass.name.split("::").last.scan(/[A-Z]/).join.downcase
       raise 'method name dup' if method_defined? method_name
       define_method method_name do |*args|
-        klass.new self, *args
+        klass.new(self, *args).parse
       end
     end
 
@@ -36,21 +36,20 @@ module Minidown
         # ======== or -------
         lines.unshift $2 if $2 && !$2.empty?
         if pre_blank?
-          te $1
+          pe $1
         else
           he nodes.pop, (line[0] == '=' ? 'h1' : 'h2')
         end
       when regexp[:start_with_shape]
         # ####h4
-        parse_line $2
+        te $2
         he nodes.pop, "h#{$1.size}"
       when regexp[:start_with_quote]
-        #binding.pry
         # > blockquote        
         be $1
       else
-        # text
-        te line
+        # paragraph
+        pe line
       end
     end
     

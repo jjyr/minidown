@@ -41,5 +41,24 @@ HERE
 </blockquote><br><p>newline</p>'
       end
     end
+
+    describe 'can use other syntax' do
+      it 'use with #' do
+        str = '> ## here h2'
+        Minidown.parse(str).to_html.should == '<blockquote><h2>here h2</h2></blockquote>'
+      end
+
+      it 'should render mutil <p>' do
+        str = '>line1
+line2
+###h3 ###
+another p'
+        Minidown.parse(str).to_html.should == '<blockquote>
+<p>line1<br>line2</p>
+<h3>h3</h3>
+<p>another p</p>
+</blockquote>'
+      end
+    end
   end
 end
