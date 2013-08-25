@@ -1,7 +1,7 @@
 module Minidown
   class LineElement < Element
     def parse
-      @nodes << self unless @nodes.last.is_a?(LineElement)
+      nodes << self unless nodes.last.is_a?(LineElement)
     end
 
     def to_node doc

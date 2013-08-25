@@ -1,7 +1,7 @@
 module Minidown
   class TextElement < Element
     def parse
-      @doc.nodes << self
+      nodes << self
     end
 
     def to_node doc

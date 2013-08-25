@@ -6,7 +6,7 @@ module Minidown
     end
     
     def parse
-      @nodes << self
+      nodes << self
     end
 
     def to_node doc

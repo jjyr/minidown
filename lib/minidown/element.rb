@@ -1,6 +1,10 @@
 module Minidown
   class Element
-    attr_reader :content
+    attr_reader :content, :doc, :nodes
+
+    def unparsed_lines
+      doc.lines
+    end
         
     BlankTypes = [:enter, :blank_line]
     
