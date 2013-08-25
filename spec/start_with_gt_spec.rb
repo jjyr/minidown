@@ -29,6 +29,33 @@ bbbbbbbbbbb</p></blockquote>
 <p>newline</p>
 HERE
       end
+
+      it 'should parse nest' do
+        str =<<HERE
+> here block
+ here too
+>   yes
+   all is block
+>>  two level
+two too
+> still level two
+still in block
+
+newline
+HERE
+        Minidown.parse(str).should == <<HERE
+<blockquote><p>here block
+here too
+yes
+all is block</p>
+<blockquote><p>two level
+two too
+still level two
+still in block</p></blockquote>
+<br>
+<p>newline</p>
+HERE
+      end
     end
   end
 end
