@@ -4,11 +4,7 @@ module Minidown
       @str = str
     end
 
-    def to_html
-      result.children.to_html
-    end
-
-    # return Nokogiri::HTML::DocumentFragment
+    # return Minidown::Document
     def result
       @result ||= parse
     end
@@ -17,6 +13,7 @@ module Minidown
     def parse
       doc = Document.new lines
       doc.parse
+      doc
     end
 
     def lines
