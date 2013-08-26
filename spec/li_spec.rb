@@ -62,6 +62,40 @@ newline'
 newline'
         Minidown.parse(str).to_html.should == '<ul><li>li1<br>    newline</li></ul><ul><li>li2<br>newline</li></ul>'
       end
+
+      it 'can work with indent' do
+        str =<<HERE
+*  here a line
+noindent
+HERE
+        Minidown.parse(str).to_html.should == "<ul><li>here a line</li><p>noindent</p></ul>"
+
+        str =<<HERE
+*  here a line
+ noindent
+HERE
+        Minidown.parse(str).to_html.should == "<ul><li><p>here a line</p><p>noindent</p></li></ul>"
+      end
+
+      it 'can work with block' do
+        str =<<HERE
+*   A list item with a blockquote:
+
+    > This is a blockquote
+    > inside a list item.
+HERE
+        Minidown.parse(str).to_html.should == "<ul><li><p>A list item with a blockquote:</p><blockquote><p>This is a blockquote<br>inside a list item.</p></blockquote></li></ul>"
+      end
+
+      it 'can not work with block without indent' do
+        str =<<HERE
+*   A list item with a blockquote:
+
+> This is a blockquote
+    > inside a list item.
+HERE
+        Minidown.parse(str).to_html.should == "<ul><li>A list item with a blockquote:</li></ul><blockquote><p>This is a blockquote<br>inside a list item.</p></blockquote>"
+      end
     end
 
     describe 'ol' do
@@ -129,6 +163,40 @@ newline'
 2. li2
 newline'
         Minidown.parse(str).to_html.should == '<ol><li>li1<br>    newline</li></ol><ol><li>li2<br>newline</li></ol>'
+      end
+
+      it 'can work with indent' do
+        str =<<HERE
+1.  here a line
+noindent
+HERE
+        Minidown.parse(str).to_html.should == "<ul><li>here a line</li><p>noindent</p></ul>"
+
+        str =<<HERE
+1.  here a line
+ noindent
+HERE
+        Minidown.parse(str).to_html.should == "<ul><li><p>here a line</p><p>noindent</p></li></ul>"
+      end
+
+      it 'can work with block' do
+        str =<<HERE
+1.   A list item with a blockquote:
+
+    > This is a blockquote
+    > inside a list item.
+HERE
+        Minidown.parse(str).to_html.should == "<ul><li><p>A list item with a blockquote:</p><blockquote><p>This is a blockquote<br>inside a list item.</p></blockquote></li></ul>"
+      end
+
+      it 'can not work with block without indent' do
+        str =<<HERE
+1.   A list item with a blockquote:
+
+> This is a blockquote
+    > inside a list item.
+HERE
+        Minidown.parse(str).to_html.should == "<ul><li>A list item with a blockquote:</li></ul><blockquote><p>This is a blockquote<br>inside a list item.</p></blockquote>"
       end
     end
   end

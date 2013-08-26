@@ -6,6 +6,10 @@ module Minidown
       super
       @display = true
     end
+
+    def blank?
+      true
+    end
     
     def parse
       node = nodes.last

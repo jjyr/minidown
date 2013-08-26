@@ -18,21 +18,24 @@ module Minidown
         @blank = (LineElement === child ? @blank + 1 : 0)
         case child
         when UnorderListElement
-          if LineElement === children.last
+          if LineElement === nodes.last
             @lists.last.p_tag_content = child.lists.first.p_tag_content = true
           end
-          children.push *child.children
+          nodes.push *child.children
           @lists.push *child.lists
           break
         when ParagraphElement
           @lists.last.contents << child.text
         when LineElement
           child.display = false
-          children << child
+          nodes << child
         else
           raise "should not execute this line!! *_*"
         end
       end
+      children_range = (nodes.index(self) + 1)..-1
+      children.push *nodes[children_range]
+      nodes[children_range] = []
     end
     
     def to_html
