@@ -9,10 +9,11 @@ module Minidown
       nodes << self
     end
 
-    def to_node doc
-      node = Nokogiri::XML::Node.new @name, doc
-      node.content = content.content
-      node
+    def to_html
+      build_tag @name do |content|
+        # self.content is TextElement
+        content << self.content.content
+      end
     end
   end
 end

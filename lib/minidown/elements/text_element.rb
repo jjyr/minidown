@@ -1,6 +1,6 @@
 module Minidown
   class TextElement < Element
-    EscapeChars = %w{# >}
+    EscapeChars = %w{# > * + -}
     EscapeRegexp = /\\([#{EscapeChars.join '|'}])/
     
     def parse
@@ -11,7 +11,7 @@ module Minidown
       super.gsub EscapeRegexp, '\\1'
     end
 
-    def to_node doc
+    def to_html
       content
     end
   end

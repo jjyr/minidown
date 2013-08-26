@@ -35,13 +35,13 @@ module Minidown
       end
     end
     
-    def to_node doc
-      node = Nokogiri::XML::Node.new 'ul', doc
-      children.each do |child|
-            binding.pry
-        node << child.to_node(doc)
+    def to_html
+      build_tag 'ul' do |content|
+        children.each do |child|
+          content << child.to_html
+        end
       end
-      node
     end
+    
   end
 end

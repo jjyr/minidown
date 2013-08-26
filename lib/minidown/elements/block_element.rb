@@ -22,12 +22,12 @@ module Minidown
       nodes[children_range] = []
     end
 
-    def to_node doc
-      node = Nokogiri::XML::Node.new 'blockquote', doc
-      children.each do |child|
-        node << child.to_node(doc)
+    def to_html
+      build_tag 'blockquote' do |content|
+        children.each do |child|
+          content << child.to_html
+        end
       end
-      node
     end
   end
 end

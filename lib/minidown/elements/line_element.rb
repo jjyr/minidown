@@ -13,9 +13,9 @@ module Minidown
       nodes << self
     end
 
-    def to_node doc
+    def to_html
       if @display
-        Nokogiri::XML::Node.new 'br', doc
+        br_tag
       else
         ''
       end

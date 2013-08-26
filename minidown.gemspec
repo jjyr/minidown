@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Minidown::VERSION
   spec.authors       = ["jjy"]
   spec.email         = ["jjyruby@gmail.com"]
-  spec.description   = %q{Yet another simple & light weight pure ruby markdown parser}
-  spec.summary       = %q{Minidown is a markdown parser}
+  spec.description   = %q{Yet another no dependencies, light weight, pure ruby markdown parser}
+  spec.summary       = %q{Minidown is a markdown parser, write in pure ruby}
   spec.homepage      = ""
   spec.license       = "MIT"
 
@@ -18,7 +18,6 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "nokogiri", ">= 1.6.0"
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
   spec.add_development_dependency "rspec"

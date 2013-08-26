@@ -11,9 +11,12 @@ module Minidown
       while line = @lines.shift
         parse_line line
       end
-      doc = Nokogiri::HTML::DocumentFragment.parse ''
-      @nodes.each{|e| doc << e.to_node(doc)}
-      doc
+    end
+
+    def to_html
+      @html ||= (doc = ''
+       @nodes.each{|e| doc << e.to_html}
+       doc)
     end
 
     # define short methods

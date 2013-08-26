@@ -7,10 +7,10 @@ module Minidown
       @p_tag_content = false
     end
 
-    def to_node document
-      node = Nokogiri::XML::Node.new 'li', document
-      node << (@p_tag_content ? ParagraphElement.new(doc, content) : TextElement.new(doc, content)).to_node(document)
-      node
+    def to_html
+      build_tag 'li' do |content|
+      content << (@p_tag_content ? ParagraphElement.new(doc, self.content) : TextElement.new(doc, self.content)).to_html
+      end
     end
   end
 end

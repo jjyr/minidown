@@ -19,14 +19,14 @@ module Minidown
       TextElement.new doc, raw_content
     end
 
-    def to_node document
-      node = Nokogiri::XML::Node.new "p", document
-      node << TextElement.new(doc, contents.shift).to_node(document)
-      contents.each do |line|
-        node << Nokogiri::XML::Node.new("br", document)
-        node << TextElement.new(doc, line).to_node(document)
+    def to_html
+      build_tag 'p' do |content|
+        content << TextElement.new(doc, contents.shift).to_html
+        contents.each do |line|
+          content << br_tag
+          content << TextElement.new(doc, line).to_html
+        end
       end
-      node
     end
   end
 end

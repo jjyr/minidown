@@ -1,6 +1,10 @@
+require 'minidown/html_helper'
+
 module Minidown
   class Element
     attr_accessor :content, :doc, :nodes, :children
+
+    include HtmlHelper
 
     def raw_content
       @content
@@ -13,8 +17,6 @@ module Minidown
     def unparsed_lines
       doc.lines
     end
-        
-    BlankTypes = [:enter, :blank_line]
     
     def initialize doc, content
       @doc = doc
@@ -27,8 +29,8 @@ module Minidown
       raise NotImplementedError, 'method parse not implemented'
     end
 
-    def to_node
-      raise NotImplementedError, 'method to_node not implemented'
+    def to_html
+      raise NotImplementedError, 'method to_html not implemented'
     end
 
     def blank?

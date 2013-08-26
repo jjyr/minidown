@@ -1,5 +1,4 @@
 require "minidown/version"
-require 'nokogiri'
 require 'minidown/parser'
 require 'minidown/elements'
 require 'minidown/document'
@@ -7,8 +6,9 @@ require 'minidown/utils'
 
 module Minidown
   class << self
+    # return Minidown::Document
     def parse str
-      Parser.new str
+      Parser.new(str).result
     end
   end
 end
