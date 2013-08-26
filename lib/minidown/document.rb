@@ -17,11 +17,8 @@ module Minidown
     end
 
     # define short methods
-    # TextElement => te, HtmlElement => ht ... Something => st
-    [TextElement, HtmlElement, LineElement, BlockElement, ParagraphElement].each do |klass|
-      method_name = klass.name.split("::").last.scan(/[A-Z]/).join.downcase
-      raise 'method name dup' if method_defined? method_name
-      define_method method_name do |*args|
+    {text: TextElement, html_tag: HtmlElement, newline: LineElement, block: BlockElement, paragraph: ParagraphElement}.each do |name, klass|
+      define_method name do |*args|
         klass.new(self, *args).parse
       end
     end
@@ -31,25 +28,27 @@ module Minidown
       case line
       when regexp[:blank_line]
         # blankline
-        le line
+        newline line
       when regexp[:h1_or_h2]
         # ======== or -------
         if pre_blank?
-          pe line
+          paragraph line
         else
           lines.unshift $2 if $2 && !$2.empty?
-          he nodes.pop, (line[0] == '=' ? 'h1' : 'h2')
+          html_tag nodes.pop, (line[0] == '=' ? 'h1' : 'h2')
         end
       when regexp[:start_with_shape]
         # ####h4
-        te $2
-        he nodes.pop, "h#{$1.size}"
+        text $2
+        html_tag nodes.pop, "h#{$1.size}"
       when regexp[:start_with_quote]
         # > blockquote        
-        be $1
+        block $1
+      when regexp[:unorder_list]
+        # * + -         
       else
         # paragraph
-        pe line
+        paragraph line
       end
     end
     
