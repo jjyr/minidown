@@ -18,17 +18,17 @@ module Minidown
         @blank = (LineElement === child ? @blank + 1 : 0)
         case child
         when UnorderListElement
-          children.push *child.children
           if LineElement === children.last
             @lists.last.p_tag_content = child.lists.first.p_tag_content = true
           end
+          children.push *child.children
           @lists.push *child.lists
           break
         when ParagraphElement
-          children << LineElement.new(doc)
-          children << child.text
+          @lists.last.contents << child.text
         when LineElement
           child.display = false
+          children << child
         else
           raise "what"
         end
@@ -37,11 +37,8 @@ module Minidown
     
     def to_html
       build_tag 'ul' do |content|
-        children.each do |child|
-          content << child.to_html
-        end
+        children.each { |child| content << child.to_html}
       end
     end
-    
   end
 end

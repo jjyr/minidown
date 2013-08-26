@@ -7,8 +7,10 @@ describe Minidown do
         %w{* + -}.each do |s|
           str = "#{s} ul"
           Minidown.parse(str).to_html.should == '<ul><li>ul</li></ul>'
+          str = " #{s} ul"
+          Minidown.parse(str).to_html.should == '<ul><li>ul</li></ul>'
           str = "#{s} li1\n#{s} li2\n#{s}        li3"
-          Minidown.parse(str).to_html.should == '<ul><li>l1</li><li>l2</li><li>l3</li></ul>'
+          Minidown.parse(str).to_html.should == '<ul><li>li1</li><li>li2</li><li>li3</li></ul>'
         end
       end
 
@@ -16,17 +18,15 @@ describe Minidown do
         %w{* + -}.each do |s|
           str = "#{s}ul"
           Minidown.parse(str).to_html.should == "<p>#{str}</p>"
-          str = " #{s} ul"
-          Minidown.parse(str).to_html.should == "<p>#{str}</p>"
         end
       end
 
       it 'escape' do
         %w{* + -}.each do |s|
           str = "\\#{s} li"
-          Minidown.parse(str).to_html.should == str.gsub("\\", '')
+          Minidown.parse(str).to_html.should == "<p>#{str.gsub("\\", '')}</p>"
           str = "#{s}\\ li"
-          Minidown.parse(str).to_html.should == str
+          Minidown.parse(str).to_html.should == "<p>#{str}</p>"
         end
       end
 
@@ -50,7 +50,7 @@ newline'
       it 'shoud not parse' do
         str = 'line
 * li2'
-        Minidown.parse(str).to_html.should == "<p>#{str}</p>"
+        Minidown.parse(str).to_html.should == "<p>line<br>* li2</p>"
       end
 
       it 'two ul' do
