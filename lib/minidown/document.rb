@@ -17,7 +17,7 @@ module Minidown
     end
 
     # define short methods
-    {text: TextElement, html_tag: HtmlElement, newline: LineElement, block: BlockElement, paragraph: ParagraphElement}.each do |name, klass|
+    {text: TextElement, html_tag: HtmlElement, newline: LineElement, block: BlockElement, paragraph: ParagraphElement, ul: UnorderListElement}.each do |name, klass|
       define_method name do |*args|
         klass.new(self, *args).parse
       end
@@ -25,27 +25,24 @@ module Minidown
 
     def parse_line line
       regexp = Minidown::Utils::Regexp
-      case line
-      when regexp[:blank_line]
+      case
+      when regexp[:blank_line] =~ line
         # blankline
         newline line
-      when regexp[:h1_or_h2]
+      when !pre_blank? && regexp[:h1_or_h2] =~ line
         # ======== or -------
-        if pre_blank?
-          paragraph line
-        else
-          lines.unshift $2 if $2 && !$2.empty?
-          html_tag nodes.pop, (line[0] == '=' ? 'h1' : 'h2')
-        end
-      when regexp[:start_with_shape]
+        lines.unshift $2 if $2 && !$2.empty?
+        html_tag nodes.pop, (line[0] == '=' ? 'h1' : 'h2')
+      when regexp[:start_with_shape] =~ line
         # ####h4
         text $2
         html_tag nodes.pop, "h#{$1.size}"
-      when regexp[:start_with_quote]
+      when regexp[:start_with_quote] =~ line
         # > blockquote        
         block $1
-      when regexp[:unorder_list]
-        # * + -         
+      when pre_blank? && regexp[:unorder_list] =~ line
+        # * + -
+        ul $1
       else
         # paragraph
         paragraph line
