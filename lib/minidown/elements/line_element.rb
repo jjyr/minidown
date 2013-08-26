@@ -1,5 +1,7 @@
 module Minidown
   class LineElement < Element
+    attr_accessor :display
+    
     def initialize doc, content=nil
       super
       @display = true

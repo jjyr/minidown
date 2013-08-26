@@ -15,9 +15,9 @@ describe Minidown do
       it 'should not parse' do
         %w{* + -}.each do |s|
           str = "#{s}ul"
-          Minidown.parse(str).to_html.should == str
+          Minidown.parse(str).to_html.should == "<p>#{str}</p>"
           str = " #{s} ul"
-          Minidown.parse(str).to_html.should == str
+          Minidown.parse(str).to_html.should == "<p>#{str}</p>"
         end
       end
 
@@ -45,6 +45,12 @@ newline'
 * li2
 newline'
         Minidown.parse(str).to_html.should == '<ul><li><p>li1<br>    newline</p></li><li><p>li2<br>newline</p></li></ul>'
+      end
+
+      it 'shoud not parse' do
+        str = 'line
+* li2'
+        Minidown.parse(str).to_html.should == "<p>#{str}</p>"
       end
 
       it 'two ul' do
@@ -75,9 +81,9 @@ newline'
       it 'should not parse' do
         @random_nums.each do |s|
           str = "#{s}ol"
-          Minidown.parse(str).to_html.should == str
+          Minidown.parse(str).to_html.should == "<p>#{str}</p>"
           str = " #{s} ol"
-          Minidown.parse(str).to_html.should == str
+          Minidown.parse(str).to_html.should == "<p>#{str}</p>"
         end
       end
 
@@ -109,6 +115,12 @@ newline'
         Minidown.parse(str).to_html.should == '<ol><li><p>li1<br>    newline</p></li><li><p>li2<br>newline</p></li></ol>'
       end
 
+      it 'shoud not parse' do
+        str = 'line
+1. li2'
+        Minidown.parse(str).to_html.should == "<p>#{str}</p>"
+      end
+      
       it 'two ol' do
         str = '1. li1
     newline

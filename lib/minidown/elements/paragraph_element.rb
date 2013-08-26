@@ -15,6 +15,10 @@ module Minidown
       end
     end
 
+    def text
+      TextElement.new doc, raw_content
+    end
+
     def to_node document
       node = Nokogiri::XML::Node.new "p", document
       node << TextElement.new(doc, contents.shift).to_node(document)

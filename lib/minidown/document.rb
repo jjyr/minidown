@@ -40,7 +40,7 @@ module Minidown
       when regexp[:start_with_quote] =~ line
         # > blockquote        
         block $1
-      when pre_blank? && regexp[:unorder_list] =~ line
+      when (pre_blank? || UnorderListElement === nodes.last) && regexp[:unorder_list] =~ line
         # * + -
         ul $1
       else
