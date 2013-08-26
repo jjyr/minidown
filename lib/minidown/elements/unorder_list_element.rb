@@ -30,7 +30,7 @@ module Minidown
           child.display = false
           children << child
         else
-          raise "what"
+          raise "should not execute this line!! *_*"
         end
       end
     end
