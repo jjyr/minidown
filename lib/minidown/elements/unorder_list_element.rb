@@ -1,21 +1,20 @@
 module Minidown
   class UnorderListElement < Element
+    IndentRegexp = /\A\s{4,}(.+)/
 
     attr_accessor :lists
     
     def initialize *_
       super
-      @blank = 0
       @children << ListElement.new(doc, content)
       @lists = @children.dup
     end
     
     def parse
       nodes << self
-      while @blank < 2 && line = unparsed_lines.shift
+      while line = unparsed_lines.shift
         doc.parse_line line
         child = nodes.pop
-        @blank = (LineElement === child ? @blank + 1 : 0)
         case child
         when UnorderListElement
           if LineElement === nodes.last
@@ -25,7 +24,15 @@ module Minidown
           @lists.push *child.lists
           break
         when ParagraphElement
-          @lists.last.contents << child.text
+          contents = @lists.last.contents
+          node = if line =~ IndentRegexp
+                   contents.push(contents.pop.paragraph) if TextElement === contents.last
+                   doc.parse_line $1
+                   nodes.pop
+                 else
+                   child.text
+                 end
+          contents << node
         when LineElement
           child.display = false
           nodes << child

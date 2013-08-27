@@ -9,7 +9,10 @@ module Minidown
     end
 
     def to_html
-      content = @contents.map(&:to_html).join br_tag
+      @contents.map! do |content|
+        ParagraphElement === content ? content.text : content
+      end if @p_tag_content
+      content = @contents.map(&:to_html).join(@p_tag_content ? br_tag : "\n")
       content = build_tag('p'){|p| p << content} if @p_tag_content
       build_tag 'li' do |li|
         li << content

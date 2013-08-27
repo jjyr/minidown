@@ -35,7 +35,7 @@ describe Minidown do
     newline
 - li2
 newline'
-        Minidown.parse(str).to_html.should == '<ul><li>li1<br>    newline</li><li>li2<br>newline</li></ul>'
+        Minidown.parse(str).to_html.should == "<ul><li><p>li1</p>\n<p>newline</p></li><li>li2\nnewline</li></ul>"
       end
 
       it '<p> in li' do
@@ -44,7 +44,7 @@ newline'
 
 * li2
 newline'
-        Minidown.parse(str).to_html.should == '<ul><li><p>li1<br>    newline</p></li><li><p>li2<br>newline</p></li></ul>'
+        Minidown.parse(str).to_html.should == "<ul><li><p>li1<br>newline</p></li><li><p>li2<br>newline</p></li></ul>"
       end
 
       it 'shoud not parse' do
@@ -60,7 +60,7 @@ newline'
 
 * li2
 newline'
-        Minidown.parse(str).to_html.should == '<ul><li>li1<br>    newline</li></ul><ul><li>li2<br>newline</li></ul>'
+        Minidown.parse(str).to_html.should == '<ul><li><p>li1<br>newline</p></li><li><p>li2<br>newline</p></li></ul>'
       end
 
       it 'can work with indent' do
@@ -68,13 +68,13 @@ newline'
 *  here a line
 noindent
 HERE
-        Minidown.parse(str).to_html.should == "<ul><li>here a line</li><p>noindent</p></ul>"
+        Minidown.parse(str).to_html.should == "<ul><li>here a line\nnoindent</li></ul>"
 
         str =<<HERE
 *  here a line
  noindent
 HERE
-        Minidown.parse(str).to_html.should == "<ul><li><p>here a line</p><p>noindent</p></li></ul>"
+        Minidown.parse(str).to_html.should == "<ul><li>here a line\n noindent</li></ul>"
       end
 
       it 'can work with block' do
@@ -84,7 +84,7 @@ HERE
     > This is a blockquote
     > inside a list item.
 HERE
-        Minidown.parse(str).to_html.should == "<ul><li><p>A list item with a blockquote:</p><blockquote><p>This is a blockquote<br>inside a list item.</p></blockquote></li></ul>"
+        Minidown.parse(str).to_html.should == "<ul><li><p>A list item with a blockquote:</p>\n<blockquote><p>This is a blockquote<br>inside a list item.</p></blockquote></li></ul>"
       end
 
       it 'can not work with block without indent' do

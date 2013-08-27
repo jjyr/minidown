@@ -6,13 +6,16 @@ module Minidown
       unparsed_lines.unshift content
       nodes << self
       while(child_line = unparsed_lines.shift) do
-        child_line.sub! BlockTagRegexp, ''
+        block = child_line.sub! BlockTagRegexp, ''
         doc.parse_line(child_line)
         child = nodes.pop
         case child
         when LineElement
           unparsed_lines.unshift child_line
           unparsed_lines.unshift nil
+        when ParagraphElement
+          child.extra = !!block
+          nodes << child
         else
           nodes << child
         end

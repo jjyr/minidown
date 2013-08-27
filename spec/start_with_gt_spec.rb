@@ -9,6 +9,14 @@ describe Minidown do
         end
       end
 
+      it 'should parse correct' do
+                str =<<HERE
+> here block
+> here too
+HERE
+        Minidown.parse(str).to_html.should == '<blockquote><p>here block</p><p>here too</p></blockquote>'
+      end
+
       it 'should parse region' do
         str =<<HERE
 > here block
@@ -35,10 +43,7 @@ still in block
 
 newline
 HERE
-        Minidown.parse(str).to_html.should == '<blockquote>
-<p>here block<br> here too<br>yes<br>   all is block</p>
-<blockquote><p>two level<br>two too<br>still level two<br>still in block</p></blockquote>
-</blockquote><br><p>newline</p>'
+        Minidown.parse(str).to_html.should == '<blockquote><p>here block<br> here too<br>yes<br>   all is block</p><blockquote><p>two level<br>two too<br>still level two<br>still in block</p></blockquote></blockquote><br><p>newline</p>'
       end
     end
 
@@ -53,11 +58,7 @@ HERE
 line2
 ###h3 ###
 another p'
-        Minidown.parse(str).to_html.should == '<blockquote>
-<p>line1<br>line2</p>
-<h3>h3</h3>
-<p>another p</p>
-</blockquote>'
+        Minidown.parse(str).to_html.should == '<blockquote><p>line1<br>line2</p><h3>h3</h3><p>another p</p></blockquote>'
       end
     end
 
