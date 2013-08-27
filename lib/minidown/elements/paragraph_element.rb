@@ -21,10 +21,6 @@ module Minidown
       TextElement.new doc, raw_content
     end
 
-    def extra
-      
-    end
-
     def to_html
       if @extra
         contents.map{|content| ParagraphElement.new(doc, content).to_html }.join ''
