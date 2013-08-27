@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Minidown::VERSION
   spec.authors       = ["jjy"]
   spec.email         = ["jjyruby@gmail.com"]
-  spec.description   = %q{Yet another no dependencies, light weight, pure ruby markdown parser}
-  spec.summary       = %q{Minidown is a markdown parser, write in pure ruby}
+  spec.description   = %q{Yet another no dependencies, light weight, pure ruby markdown parser, follow GFM}
+  spec.summary       = %q{Minidown is a markdown parser, write in pure ruby, follow GFM}
   spec.homepage      = ""
   spec.license       = "MIT"
 
