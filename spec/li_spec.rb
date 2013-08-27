@@ -104,11 +104,11 @@ HERE
       end
       
       it 'should basic parse correct' do
-        5.times.map{(42..4242).sample 3}.each do |n, n2, n3|
+        5.times.map{(42..4242).to_a.sample 3}.each do |n, n2, n3|
           str = "#{n}. ol"
           Minidown.parse(str).to_html.should == '<ol><li>ol</li></ol>'
-          str = "#{n} li1\n#{n2} li2\n#{n3}        li3"
-          Minidown.parse(str).to_html.should == '<ol><li>l1</li><li>l2</li><li>l3</li></ol>'
+          str = "#{n}. li1\n#{n2}. li2\n#{n3}.        li3"
+          Minidown.parse(str).to_html.should == '<ol><li>li1</li><li>li2</li><li>li3</li></ol>'
         end
       end
 
@@ -124,11 +124,11 @@ HERE
       it 'escape' do
         @random_nums.each do |s|
           str = "\\#{s}. li"
-          Minidown.parse(str).to_html.should == str
+          Minidown.parse(str).to_html.should == "<p>#{str}</p>"
           str = "#{s}.\\ li"
-          Minidown.parse(str).to_html.should == str
+          Minidown.parse(str).to_html.should == "<p>#{str}</p>"
           str = "#{s}\\. li"
-          Minidown.parse(str).to_html.should == str.gsub("\\", '')
+          Minidown.parse(str).to_html.should == "<p>#{str}</p>"
         end
       end
 
@@ -137,7 +137,7 @@ HERE
     newline
 2. li2
 newline'
-        Minidown.parse(str).to_html.should == '<ol><li>li1<br>    newline</li><li>li2<br>newline</li></ol>'
+        Minidown.parse(str).to_html.should == "<ol><li><p>li1</p>\n<p>newline</p></li><li>li2\nnewline</li></ol>"
       end
 
       it '<p> in li' do
@@ -146,23 +146,23 @@ newline'
 
 2. li2
 newline'
-        Minidown.parse(str).to_html.should == '<ol><li><p>li1<br>    newline</p></li><li><p>li2<br>newline</p></li></ol>'
+        Minidown.parse(str).to_html.should == '<ol><li><p>li1<br>newline</p></li><li><p>li2<br>newline</p></li></ol>'
       end
 
       it 'shoud not parse' do
         str = 'line
 1. li2'
-        Minidown.parse(str).to_html.should == "<p>#{str}</p>"
+        Minidown.parse(str).to_html.should == "<p>line<br>1. li2</p>"
       end
       
-      it 'two ol' do
+      it 'two line' do
         str = '1. li1
     newline
 
 
 2. li2
 newline'
-        Minidown.parse(str).to_html.should == '<ol><li>li1<br>    newline</li></ol><ol><li>li2<br>newline</li></ol>'
+        Minidown.parse(str).to_html.should == '<ol><li><p>li1<br>newline</p></li><li><p>li2<br>newline</p></li></ol>'
       end
 
       it 'can work with indent' do
@@ -170,13 +170,13 @@ newline'
 1.  here a line
 noindent
 HERE
-        Minidown.parse(str).to_html.should == "<ul><li>here a line</li><p>noindent</p></ul>"
+        Minidown.parse(str).to_html.should == "<ol><li>here a line\nnoindent</li></ol>"
 
         str =<<HERE
 1.  here a line
  noindent
 HERE
-        Minidown.parse(str).to_html.should == "<ul><li><p>here a line</p><p>noindent</p></li></ul>"
+        Minidown.parse(str).to_html.should == "<ol><li>here a line\n noindent</li></ol>"
       end
 
       it 'can work with block' do
@@ -186,7 +186,7 @@ HERE
     > This is a blockquote
     > inside a list item.
 HERE
-        Minidown.parse(str).to_html.should == "<ul><li><p>A list item with a blockquote:</p><blockquote><p>This is a blockquote<br>inside a list item.</p></blockquote></li></ul>"
+        Minidown.parse(str).to_html.should == "<ol><li><p>A list item with a blockquote:</p>\n<blockquote><p>This is a blockquote</p><p>inside a list item.</p></blockquote></li></ol>"
       end
 
       it 'can not work with block without indent' do
@@ -196,7 +196,7 @@ HERE
 > This is a blockquote
     > inside a list item.
 HERE
-        Minidown.parse(str).to_html.should == "<ul><li>A list item with a blockquote:</li></ul><blockquote><p>This is a blockquote<br>inside a list item.</p></blockquote>"
+        Minidown.parse(str).to_html.should == "<ol><li>A list item with a blockquote:</li></ol><blockquote><p>This is a blockquote</p><p>inside a list item.</p></blockquote>"
       end
     end
   end

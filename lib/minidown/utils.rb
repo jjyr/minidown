@@ -7,7 +7,7 @@ module Minidown
       start_with_shape: /\A(\#{1,6})\s*(.+?)\s*#*\z/,
       start_with_quote: /\A\>\s*(.+)/,
       unorder_list: /\A\s*[*\-+]\s+(.+)/,
-      order_list: //
+      order_list: /\A\s*\d+\.\s+(.+)/
     }
   end
 end

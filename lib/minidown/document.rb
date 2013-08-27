@@ -20,7 +20,7 @@ module Minidown
     end
 
     # define short methods
-    {text: TextElement, html_tag: HtmlElement, newline: LineElement, block: BlockElement, paragraph: ParagraphElement, ul: UnorderListElement}.each do |name, klass|
+    {text: TextElement, html_tag: HtmlElement, newline: LineElement, block: BlockElement, paragraph: ParagraphElement, ul: UnorderListElement, ol: OrderListElement}.each do |name, klass|
       define_method name do |*args|
         klass.new(self, *args).parse
       end
@@ -46,6 +46,9 @@ module Minidown
       when (pre_blank? || UnorderListElement === nodes.last) && regexp[:unorder_list] =~ line
         # * + -
         ul $1
+      when (pre_blank? || OrderListElement === nodes.last) && regexp[:order_list] =~ line
+        # 1. order
+        ol $1
       else
         # paragraph
         paragraph line
