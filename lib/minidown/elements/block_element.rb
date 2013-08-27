@@ -1,6 +1,6 @@
 module Minidown
   class BlockElement < Element
-    BlockTagRegexp = /\A\>\s*/
+    BlockTagRegexp = /\A\s*\>\s*/
    
     def parse
       unparsed_lines.unshift content

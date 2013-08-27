@@ -84,7 +84,7 @@ HERE
     > This is a blockquote
     > inside a list item.
 HERE
-        Minidown.parse(str).to_html.should == "<ul><li><p>A list item with a blockquote:</p>\n<blockquote><p>This is a blockquote<br>inside a list item.</p></blockquote></li></ul>"
+        Minidown.parse(str).to_html.should == "<ul><li><p>A list item with a blockquote:</p>\n<blockquote><p>This is a blockquote</p><p>inside a list item.</p></blockquote></li></ul>"
       end
 
       it 'can not work with block without indent' do
