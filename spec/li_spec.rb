@@ -94,7 +94,7 @@ HERE
 > This is a blockquote
     > inside a list item.
 HERE
-        Minidown.parse(str).to_html.should == "<ul><li>A list item with a blockquote:</li></ul><blockquote><p>This is a blockquote<br>inside a list item.</p></blockquote>"
+        Minidown.parse(str).to_html.should == "<ul><li>A list item with a blockquote:</li></ul><blockquote><p>This is a blockquote</p><p>inside a list item.</p></blockquote>"
       end
     end
 

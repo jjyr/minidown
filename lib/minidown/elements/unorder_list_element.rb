@@ -8,6 +8,7 @@ module Minidown
       super
       @children << ListElement.new(doc, content)
       @lists = @children.dup
+      @put_back = []
     end
     
     def parse
@@ -37,12 +38,14 @@ module Minidown
           child.display = false
           nodes << child
         else
-          raise "should not execute this line!! *_*"
+          @put_back << child
+          break
         end
       end
       children_range = (nodes.index(self) + 1)..-1
       children.push *nodes[children_range]
       nodes[children_range] = []
+      nodes.push *@put_back
     end
     
     def to_html
