@@ -11,14 +11,13 @@ should in code block
 in block
 ```
 HERE
-        Minidown.parse(str).to_html.should == "<pre><code>should in code block\nin block</code></pre>"
+        Minidown.parse(str).to_html.should == "<pre><code>should in code block\n\nin block</code></pre>"
       end
       
       it 'should ignore space' do
         str =<<HERE
   ```
 should in code block
-
 in block
     ```
 HERE
@@ -33,18 +32,31 @@ should in code block
 in block
 ```
 HERE
-        Minidown.parse(str).to_html.should == "<pre lang=\"ruby\"><code>should in code block\nin block</code></pre>"
+        Minidown.parse(str).to_html.should == "<pre lang=\"ruby\"><code>should in code block\n\nin block</code></pre>"
       end
 
       it 'should allow escape' do
         str =<<HERE
-\```
+\\```
 should in code block
 
 in block
-\```
+\\```
 HERE
-        Minidown.parse(str).to_html.should == "<p>```<br>should in code block<br>in block<br>```</p>"
+        Minidown.parse(str).to_html.should == "<p>```<br>should in code block</p><p>in block<br>```</p>"
+      end
+
+      it 'should not escape content' do
+        str =<<HERE
+```
+\\+
+\\.
+\\-
+\\*
+<>
+```
+HERE
+        Minidown.parse(str).to_html.should == "<pre><code>\\+\n\\.\n\\-\n\\*\n&lt;&gt;</code></pre>"
       end
     end
   end

@@ -2,15 +2,26 @@ require 'cgi'
 
 module Minidown
   class TextElement < Element
-    EscapeChars = %w{# > * + -}
+    EscapeChars = %w{# > * + \- `}
     EscapeRegexp = /\\([#{EscapeChars.join '|'}])/
+
+    attr_accessor :escape
+    
+    def initialize *_
+      super
+      @escape = true
+    end
     
     def parse
       nodes << self
     end
 
     def content
-      CGI.escape_html super.gsub(EscapeRegexp, '\\1')
+      CGI.escape_html (if escape
+                         super.gsub(EscapeRegexp, '\\1')
+                       else
+                         super
+                       end)
     end
 
     def paragraph
