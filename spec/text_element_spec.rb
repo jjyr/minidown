@@ -45,6 +45,33 @@ or <a href="http://search.msn.com/" title="MSN Search">MSN</a>.</p>'
           end
         end
       end
+
+      context 'auto link' do
+        it 'should parse link' do
+          str = "https://github.com/jjyr/minidown"
+          Minidown.parse(str).to_html.should == "<p><a href=\"#{str}\">#{str}</a></p>"
+        end
+
+        it 'should not parse link without scheme' do
+          str = "github.com/jjyr/minidown"
+          Minidown.parse(str).to_html.should == "<p>#{str}</p>"
+        end
+
+        it 'should parse email address' do
+          str = "jjyruby@gmail.com"
+          Minidown.parse(str).to_html.should == "<p><a href=\"mailto:#{str}\">#{str}</a></p>"
+        end
+
+        it 'should parse with <>' do
+          str = "<https://github.com/jjyr/minidown>"
+          Minidown.parse(str).to_html.should == "<p><a href=\"#{str}\">#{str}</a></p>"
+        end
+
+        it 'should not parse with <> if url invalid' do
+          str = "<github.com/jjyr/minidown>"
+          Minidown.parse(str).to_html.should == "<p></p>"
+        end
+      end
     end
   end
 end
