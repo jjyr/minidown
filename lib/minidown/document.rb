@@ -43,7 +43,7 @@ module Minidown
         html_tag nodes.pop, "h#{$1.size}"
       when regexp[:start_with_quote] =~ line
         # > blockquote        
-        block $1
+        inblock{block $1}
       when regexp[:dividing_line] =~ line
         # * * * - - -
         dividing_line line
