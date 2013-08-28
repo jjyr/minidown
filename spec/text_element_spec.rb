@@ -158,6 +158,28 @@ HERE
           Minidown.parse("\\*\\_\\*").to_html.should == '<p>*_*</p>'
         end
       end
+
+      context 'inline code' do
+        it 'should parse correct' do
+          str = "Use the `printf()` function."
+          Minidown.parse(str).to_html.should == "<p>Use the <code>printf()</code> function.</p>"
+        end
+
+        it 'should can use multi `' do
+          str = "``There is a literal backtick (`) here.``"
+          Minidown.parse(str).to_html.should == "<p><code>There is a literal backtick (`) here.</code></p>"
+
+          str = 'A single backtick in a code span: `` ` ``
+
+A backtick-delimited string in a code span: `` `foo` ``'
+          Minidown.parse(str).to_html.should == '<p>A single backtick in a code span: <code>`</code></p><p>A backtick-delimited string in a code span: <code>`foo`</code></p>'
+        end
+
+        it 'should auto escape' do
+          str = "Please don't use any `<blink>` tags."
+          Minidown.parse(str).to_html.should == "<p>Please don&#39;t use any <code>&lt;blink&gt;</code> tags.</p>"
+        end
+      end
     end
   end
 end

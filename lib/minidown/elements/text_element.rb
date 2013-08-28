@@ -2,7 +2,7 @@ require 'cgi'
 
 module Minidown
   class TextElement < Element
-    EscapeChars = %w{# > * + \- ` _ { } ( ) . ! \[ \]}
+    EscapeChars = %w{# &gt; * + \- ` _ { } ( ) . ! \[ \]}
     EscapeRegexp = /\\([#{EscapeChars.join '|'}])|\\(\\)/
    
     Regexp = {
@@ -18,7 +18,8 @@ module Minidown
       link_scheme: /\A\S+\:\/\//,
       email: /\A[A-Za-z0-9]+@[A-Za-z0-9]+\.[A-Za-z0-9]+/,
       auto_email: /(?<!\S)[A-Za-z0-9]+@[A-Za-z0-9]+\.[A-Za-z0-9]+(?!\S)/,
-      auto_link: /(?<!\S)\w+\:\/\/.+(?!\S)/
+      auto_link: /(?<!\S)\w+\:\/\/.+(?!\S)/,
+      inline_code: /(?<!\\)(`+)\s*(.+?)\s*(?<!\\)\1/
     }
 
     attr_accessor :escape, :convert
@@ -26,6 +27,7 @@ module Minidown
     def initialize *_
       super
       @escape = true
+      @escape_html = true
       @convert = true
     end
     
@@ -35,8 +37,14 @@ module Minidown
 
     def content
       str = super
-      convert_str(str) if convert
+      str = convert_str(str) if convert
+      str = escape_str(str)
+      str
+    end
+
+    def escape_str str
       str.gsub!(EscapeRegexp, '\\1') if escape
+      return str unless @escape_html
       str = CGI.escape_html str
       str.gsub! Regexp[:tag] do
         tag = $1
@@ -114,6 +122,19 @@ module Minidown
           content << text
         end
       end
+
+      o_escape, @escape = @escape, false
+      str = escape_str(str)
+      @escape_html, @escape = false, o_escape
+     
+      #inline code
+      str.gsub! Regexp[:inline_code] do |origin_str|
+        build_tag 'code' do |code|
+          code << CGI.escape_html($2)
+        end
+      end
+      str = escape_str(str)
+      str
     end
 
     def paragraph
