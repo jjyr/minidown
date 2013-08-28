@@ -13,7 +13,10 @@ module Minidown
       link_url: /(\S+)/,
       link_ref: /\[(.+?)\]\s*\[(.*?)\]/,
       star: /((?<!\\)\*{1,2})(\S+?)\1/,
-      underline: /\A\s*((?<!\\)\_{1,2})(\S+)\1\s*\z/
+      underline: /\A\s*((?<!\\)\_{1,2})(\S+)\1\s*\z/,
+      quotlink: /\<(.+)\>/,
+      link_scheme: /\A\S+\:\/\//,
+      email: /\A.+@/
     }
 
     attr_accessor :escape, :convert
@@ -44,18 +47,25 @@ module Minidown
     end
 
     def convert_str str
-      #parse *
-      str.gsub! Regexp[:star] do |origin_str|
-        tag_name = $1.size > 1 ? 'strong' : 'em'
-        build_tag tag_name do |tag|
-          tag << $2
-        end
+      #parse <link>
+      str.gsub! Regexp[:quotlink] do |origin_str|
+        link = $1
+        attr = case link
+               when Regexp[:link_scheme]
+                 {href: link}
+               when Regexp[:email]
+                 {href: "mailto:#{link}"}
+               end
+        attr ? build_tag('a', attr){|a| a << link} : origin_str
       end
-
-      str.gsub! Regexp[:underline] do |origin_str|
-        tag_name = $1.size > 1 ? 'strong' : 'em'
-        build_tag tag_name do |tag|
-          tag << $2
+      
+      #parse * _
+      Regexp.values_at(:star, :underline).each do |regex|
+        str.gsub! regex do |origin_str|
+          tag_name = $1.size > 1 ? 'strong' : 'em'
+          build_tag tag_name do |tag|
+            tag << $2
+          end
         end
       end
       

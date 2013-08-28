@@ -67,12 +67,17 @@ HERE
 
         it 'should parse with <>' do
           str = "<https://github.com/jjyr/minidown>"
-          Minidown.parse(str).to_html.should == "<p><a href=\"#{str}\">#{str}</a></p>"
+          Minidown.parse(str).to_html.should == "<p><a href=\"#{str[1..-2]}\">#{str[1..-2]}</a></p>"
         end
 
         it 'should not parse with <> if url invalid' do
           str = "<github.com/jjyr/minidown>"
-          Minidown.parse(str).to_html.should == "<p></p>"
+          Minidown.parse(str).to_html.should == "<p>#{str}</p>"
+        end
+
+        it 'should parse email' do
+          str = "<jjyruby@gmail.com>"
+          Minidown.parse(str).to_html.should == "<p><a href=\"mailto:jjyruby@gmail.com\">jjyruby@gmail.com</a></p>"   
         end
       end
 
