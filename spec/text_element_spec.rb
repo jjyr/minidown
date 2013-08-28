@@ -3,6 +3,16 @@ require 'spec_helper'
 describe Minidown do
   describe '.parse' do
     describe 'text element' do
+      it 'escape' do
+        str = "<>"
+        Minidown.parse(str).to_html.should == "<p>&lt;&gt;</p>"
+      end
+      
+      it 'html tag' do
+        str = "<a href=\"http://github.com\">github</a>"
+        Minidown.parse(str).to_html.should == "<p>#{str}</p>"
+      end
+      
       context 'link' do
         it 'should parse correct' do
           str = %Q{This is [an example](http://example.com/ "Title") inline link.

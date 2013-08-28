@@ -2,14 +2,18 @@ require 'cgi'
 
 module Minidown
   class TextElement < Element
-    EscapeChars = %w{# > * + \- `}
+    EscapeChars = %w{# > * + \- ` _}
     EscapeRegexp = /\\([#{EscapeChars.join '|'}])/
     
     Regexp = {
+      tag: /&lt;(.+?)&gt;/,
+      quot: /&quot;/,
       link: /\[(.+)\]\((.+)\)/,
-      link_title: /((?<=&quot;).+(?=&quot;))/,
+      link_title: /((?<=").+(?="))/,
       link_url: /(\S+)/,
-      link_ref: /\[(.+?)\]\s*\[(.*?)\]/
+      link_ref: /\[(.+?)\]\s*\[(.*?)\]/,
+      star: /((?<!\\)\*{1,2})(\S+?)\1/,
+      underline: /\A\s*((?<!\\)\_{1,2})(\S+)\1\s*\z/
     }
 
     attr_accessor :escape, :convert
@@ -26,13 +30,36 @@ module Minidown
 
     def content
       str = super
+      convert_str(str) if convert
       str.gsub!(EscapeRegexp, '\\1') if escape
       str = CGI.escape_html str
-      convert_str(str) if convert
+      str.gsub! Regexp[:tag] do
+        tag = $1
+        tag.gsub! Regexp[:quot] do
+          '"'
+        end
+        "<#{tag}>"
+      end
       str
     end
 
     def convert_str str
+      #parse *
+      str.gsub! Regexp[:star] do |origin_str|
+        tag_name = $1.size > 1 ? 'strong' : 'em'
+        build_tag tag_name do |tag|
+          tag << $2
+        end
+      end
+
+      str.gsub! Regexp[:underline] do |origin_str|
+        tag_name = $1.size > 1 ? 'strong' : 'em'
+        build_tag tag_name do |tag|
+          tag << $2
+        end
+      end
+      
+      #convert link reference
       str.gsub! Regexp[:link_ref] do |origin_str|
         text = $1
         id = ($2 && !$2.empty?) ? $2 : $1
@@ -47,7 +74,8 @@ module Minidown
           origin_str
         end
       end
-      
+
+      #convert link syntax
       str.gsub! Regexp[:link] do
         text, url = $1, $2
         url =~ Regexp[:link_title]
