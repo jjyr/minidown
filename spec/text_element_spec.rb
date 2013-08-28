@@ -65,6 +65,41 @@ HERE
           Minidown.parse(str).to_html.should == "<p></p>"
         end
       end
+
+      context '*_ em & strong' do
+        it 'parse as em' do
+          ['*', '_'].each do |c|
+            Minidown.parse("#{c}em#{c}").to_html.should == '<p><em>em</em></p>'
+          end
+        end
+
+        it 'can not mass' do
+          Minidown.parse("*em_").to_html.should == '<p>*em_</p>'
+        end
+
+        it 'parse as strong' do
+          ['**', '__'].each do |c|
+            Minidown.parse("#{c}strong#{c}").to_html.should == '<p><strong>strong</strong></p>'
+          end
+        end
+
+        it '* can work in string' do
+          Minidown.parse("this*em*string").to_html.should == '<p>this<em>em</em>string</p>'
+        end
+
+        it '_ can not work in string' do
+          Minidown.parse("_here_method").to_html.should == '<p>_here_method</p>'
+          Minidown.parse("_here_method_").to_html.should == '<p><em>here_method</em></p>'
+        end
+
+        it 'should parse correct' do
+          Minidown.parse("_ *what*_").to_html.should == '<p>_ <em>what</em>_</p>'
+        end
+
+        it 'should allow escape' do
+          Minidown.parse("\\*\\_\\*").to_html.should == '<p>*_*</p>'
+        end
+      end
     end
   end
 end
