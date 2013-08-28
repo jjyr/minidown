@@ -4,7 +4,7 @@ describe Minidown do
   describe '.parse'do
     describe '======== or -------' do
       it 'should parse as text' do
-        %w{===== ------ =====hello ------nihao}.each do |str|
+        %w{===== =====hello ------nihao}.each do |str|
           Minidown.parse(str).to_html.should == "<p>#{str}</p>"
         end
       end

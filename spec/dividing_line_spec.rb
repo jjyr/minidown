@@ -23,13 +23,13 @@ describe Minidown do
         Minidown.parse(str).to_html.should == '<p>f---</p>'
 
         str = '* * *z'
-        Minidown.parse(str).to_html.should == '<p>* * *z</p>'
+        Minidown.parse(str).to_html.should == '<ul><li>* *z</li></ul>'
       end
 
       it 'should allow escape' do
         str = "\\----"
         Minidown.parse(str).to_html.should == '<p>----</p>'
-        str = "\* * *"
+        str = "\\* * *"
         Minidown.parse(str).to_html.should == '<p>* * *</p>'
       end
     end
