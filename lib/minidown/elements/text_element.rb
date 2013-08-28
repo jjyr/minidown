@@ -5,11 +5,12 @@ module Minidown
     EscapeChars = %w{# > * + \- `}
     EscapeRegexp = /\\([#{EscapeChars.join '|'}])/
 
-    attr_accessor :escape
+    attr_accessor :escape, :convert
     
     def initialize *_
       super
       @escape = true
+      @convert = true
     end
     
     def parse
@@ -17,11 +18,9 @@ module Minidown
     end
 
     def content
-      CGI.escape_html (if escape
-                         super.gsub(EscapeRegexp, '\\1')
-                       else
-                         super
-                       end)
+      str = super
+      str.gsub!(EscapeRegexp, '\\1') if escape
+      CGI.escape_html str
     end
 
     def paragraph
