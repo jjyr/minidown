@@ -128,7 +128,7 @@ HERE
           str = "#{s}.\\ li"
           Minidown.parse(str).to_html.should == "<p>#{str}</p>"
           str = "#{s}\\. li"
-          Minidown.parse(str).to_html.should == "<p>#{str}</p>"
+          Minidown.parse(str).to_html.should == "<p>#{s}. li</p>"
         end
       end
 

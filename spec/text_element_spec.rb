@@ -7,6 +7,39 @@ describe Minidown do
         str = "<>"
         Minidown.parse(str).to_html.should == "<p>&lt;&gt;</p>"
       end
+
+      it 'escape special symbol' do
+        str = '\\
+\`
+\*
+\_
+\{
+\}
+\[
+\]
+\(
+\)
+\#
+\+
+\-
+\.
+\!'
+        Minidown.parse(str).to_html.should == '<p>\
+`
+*
+_
+{
+}
+[
+]
+(
+)
+#
++
+-
+.
+!</p>'.split.join('<br>')
+      end
       
       it 'html tag' do
         str = "<a href=\"http://github.com\">github</a>"

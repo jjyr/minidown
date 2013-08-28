@@ -2,9 +2,9 @@ require 'cgi'
 
 module Minidown
   class TextElement < Element
-    EscapeChars = %w{# > * + \- ` _}
-    EscapeRegexp = /\\([#{EscapeChars.join '|'}])/
-    
+    EscapeChars = %w{# > * + \- ` _ { } ( ) . ! \[ \]}
+    EscapeRegexp = /\\([#{EscapeChars.join '|'}])|\\(\\)/
+   
     Regexp = {
       tag: /&lt;(.+?)&gt;/,
       quot: /&quot;/,
