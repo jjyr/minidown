@@ -34,10 +34,7 @@ I get 10 times more traffic from [Google][] than from
   [msn]:    http://search.msn.com/    "MSN Search"
 HERE
           [str, str2].each do |s|
-            Minidown.parse(s).to_html.should == '<p>I get 10 times more traffic from <a href="http://google.com/"
-title="Google">Google</a> than from
-<a href="http://search.yahoo.com/" title="Yahoo Search">Yahoo</a>
-or <a href="http://search.msn.com/" title="MSN Search">MSN</a>.</p>'
+            Minidown.parse(s).to_html.should == '<p>I get 10 times more traffic from <a href="http://google.com/" title="Google">Google</a> than from<br><a href="http://search.yahoo.com/" title="Yahoo Search">Yahoo</a> or <a href="http://search.msn.com/" title="MSN Search">MSN</a>.</p>'
           end
         end
       end

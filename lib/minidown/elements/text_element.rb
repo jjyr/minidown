@@ -7,8 +7,9 @@ module Minidown
     
     Regexp = {
       link: /\[(.+)\]\((.+)\)/,
-      link_title: /\ &quot;(.+)&quot;/,
-      link_url: /(\S+)/
+      link_title: /((?<=&quot;).+(?=&quot;))/,
+      link_url: /(\S+)/,
+      link_ref: /\[(.+?)\]\s*\[(.*?)\]/
     }
 
     attr_accessor :escape, :convert
@@ -32,6 +33,21 @@ module Minidown
     end
 
     def convert_str str
+      str.gsub! Regexp[:link_ref] do |origin_str|
+        text = $1
+        id = ($2 && !$2.empty?) ? $2 : $1
+        ref = doc.links_ref[id.downcase]
+        if ref
+          attr = {href: ref[:url]}
+          attr[:title] = ref[:title] if ref[:title] && !ref[:title].empty?
+          build_tag 'a', attr do |a|
+            a << text
+          end
+        else
+          origin_str
+        end
+      end
+      
       str.gsub! Regexp[:link] do
         text, url = $1, $2
         url =~ Regexp[:link_title]
