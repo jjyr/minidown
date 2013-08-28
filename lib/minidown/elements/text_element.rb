@@ -17,8 +17,8 @@ module Minidown
       quotlink: /\<(.+)\>/,
       link_scheme: /\A\S+\:\/\//,
       email: /\A[A-Za-z0-9]+@[A-Za-z0-9]+\.[A-Za-z0-9]+/,
-      auto_email: /[A-Za-z0-9]+@[A-Za-z0-9]+\.[A-Za-z0-9]+/,
-      auto_link: /\S=\:\/\/\S+/
+      auto_email: /(?<!\S)[A-Za-z0-9]+@[A-Za-z0-9]+\.[A-Za-z0-9]+(?!\S)/,
+      auto_link: /(?<!\S)\S=\:\/\/\S+(?!\S)/
     }
 
     attr_accessor :escape, :convert
@@ -49,6 +49,13 @@ module Minidown
     end
 
     def convert_str str
+      #auto email
+      str.gsub! Regexp[:auto_email] do |origin_str|
+        build_tag 'a', href: "mailto:#{origin_str}" do |a|
+          a << origin_str
+        end
+      end
+      
       #parse <link>
       str.gsub! Regexp[:quotlink] do |origin_str|
         link = $1
