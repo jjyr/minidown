@@ -15,19 +15,7 @@ module Minidown
     end
 
     def parse
-      while line = @lines.pop
-        line.gsub! RefRegexp[:link_ref_define] do
-          id, url = $1, $2
-          $3 =~ RefRegexp[:link_title]
-          title = $1
-          links_ref[id.downcase] = {url: url, title: title}
-          ''
-        end
-        unless line.empty?
-          @lines << line
-          break
-        end
-      end
+      parse_references
       
       while line = @lines.shift
         parse_line line
@@ -44,6 +32,22 @@ module Minidown
     {text: TextElement, html_tag: HtmlElement, newline: LineElement, block: BlockElement, paragraph: ParagraphElement, ul: UnorderListElement, ol: OrderListElement, code_block: CodeBlockElement, dividing_line: DividingLineElement, indent_code: IndentCodeElement}.each do |name, klass|
       define_method name do |*args|
         klass.new(self, *args).parse
+      end
+    end
+
+    def parse_references
+      while line = @lines.pop
+        line.gsub! RefRegexp[:link_ref_define] do
+          id, url = $1, $2
+          $3 =~ RefRegexp[:link_title]
+          title = $1
+          links_ref[id.downcase] = {url: url, title: title}
+          ''
+        end
+        unless line.empty?
+          @lines << line
+          break
+        end
       end
     end
 
