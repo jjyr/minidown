@@ -5,6 +5,7 @@ module Minidown
     def initialize lines
       @lines = lines
       @nodes = []
+      @inblock = false
     end
 
     def parse
@@ -20,7 +21,7 @@ module Minidown
     end
 
     # define short methods
-    {text: TextElement, html_tag: HtmlElement, newline: LineElement, block: BlockElement, paragraph: ParagraphElement, ul: UnorderListElement, ol: OrderListElement, code_block: CodeBlockElement, dividing_line: DividingLineElement}.each do |name, klass|
+    {text: TextElement, html_tag: HtmlElement, newline: LineElement, block: BlockElement, paragraph: ParagraphElement, ul: UnorderListElement, ol: OrderListElement, code_block: CodeBlockElement, dividing_line: DividingLineElement, indent_code: IndentCodeElement}.each do |name, klass|
       define_method name do |*args|
         klass.new(self, *args).parse
       end
@@ -48,13 +49,16 @@ module Minidown
         dividing_line line
       when (pre_blank? || UnorderListElement === nodes.last) && regexp[:unorder_list] =~ line
         # * + -
-        ul $1
+        inblock{ul $1}
       when (pre_blank? || OrderListElement === nodes.last) && regexp[:order_list] =~ line
         # 1. order
-        ol $1
+        inblock{ol $1}
       when regexp[:code_block] =~ line
         # ```
         code_block $1
+      when !@inblock && pre_blank? && regexp[:indent_code] =~ line
+        #    code
+        indent_code $1
       else
         # paragraph
         paragraph line
@@ -65,6 +69,16 @@ module Minidown
     def pre_blank?
       node = @nodes.last
       node.nil? || node.blank?
+    end
+
+    def inblock
+      if @inblock
+        yield
+      else
+        @inblock = true
+        yield
+        @inblock = false
+      end
     end
   end
 end
