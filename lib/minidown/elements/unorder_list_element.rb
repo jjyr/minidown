@@ -1,12 +1,21 @@
 module Minidown
   class UnorderListElement < Element
     IndentRegexp = /\A\s{4,}(.+)/
+    TaskRegexp = /\A\[([ x])\](.+)/
 
     attr_accessor :lists
     
     def initialize *_
       super
-      @children << ListElement.new(doc, content)
+      if content =~ TaskRegexp
+        @task_ul ||= true
+        list = ListElement.new(doc, $2)
+        list.task_list = true
+        list.checked = ($1 == 'x')
+      else
+        list = ListElement.new(doc, content)
+      end
+      @children << list
       @lists = @children.dup
       @put_back = []
     end
@@ -49,7 +58,9 @@ module Minidown
     end
     
     def to_html
-      build_tag 'ul' do |content|
+      attr = nil
+      attr = {class: 'task-list'} if @task_ul
+      build_tag 'ul', attr do |content|
         children.each { |child| content << child.to_html}
       end
     end
