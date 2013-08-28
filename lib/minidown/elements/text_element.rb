@@ -16,7 +16,9 @@ module Minidown
       underline: /\A\s*((?<!\\)\_{1,2})(\S+)\1\s*\z/,
       quotlink: /\<(.+)\>/,
       link_scheme: /\A\S+\:\/\//,
-      email: /\A.+@/
+      email: /\A[A-Za-z0-9]+@[A-Za-z0-9]+\.[A-Za-z0-9]+/,
+      auto_email: /[A-Za-z0-9]+@[A-Za-z0-9]+\.[A-Za-z0-9]+/,
+      auto_link: /\S=\:\/\/\S+/
     }
 
     attr_accessor :escape, :convert

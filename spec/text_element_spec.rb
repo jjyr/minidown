@@ -55,6 +55,11 @@ HERE
           Minidown.parse(str).to_html.should == "<p><a href=\"#{str}\">#{str}</a></p>"
         end
 
+        it 'should not parse link in tag' do
+          str = "<a href=\"https://github.com/jjyr/minidown\">minidown</a>"
+          Minidown.parse(str).to_html.should == "<p>#{str}</p>"
+        end
+
         it 'should not parse link without scheme' do
           str = "github.com/jjyr/minidown"
           Minidown.parse(str).to_html.should == "<p>#{str}</p>"
@@ -63,6 +68,11 @@ HERE
         it 'should parse email address' do
           str = "jjyruby@gmail.com"
           Minidown.parse(str).to_html.should == "<p><a href=\"mailto:#{str}\">#{str}</a></p>"
+        end
+
+        it 'should not parse email in tag' do
+          str = "<a href=\"mailto:jjyruby@gmail.com\">jjyr</a>"
+          Minidown.parse(str).to_html.should == "<p>#{str}</p>"
         end
 
         it 'should parse with <>' do
