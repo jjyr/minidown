@@ -207,6 +207,15 @@ HERE
 HERE
         Minidown.parse(str).to_html.should == "<ol><li>A list item with a blockquote:</li></ol><blockquote><p>This is a blockquote</p><p>inside a list item.</p></blockquote>"
       end
+
+      it 'newline' do
+        str =<<HERE
+1.   A list
+
+Newline
+HERE
+        Minidown.parse(str).to_html.should == "<ol><li>A list</li></ol><p>Newline</p>"
+      end
     end
   end
 end
