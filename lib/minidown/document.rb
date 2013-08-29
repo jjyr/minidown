@@ -3,7 +3,8 @@ module Minidown
     attr_accessor :lines, :nodes, :links_ref
 
     RefRegexp = {
-      link_ref_define: /\A\s*\[(.+)\]\:\s+(\S+)\s*.*?((?<=\").*(?=\"))/
+      link_ref_define: /\A\s*\[(.+)\]\:\s+(\S+)\s*(.*)/,
+      link_title: /((?<=\").+(?=\"))/
     }
     
     def initialize lines
@@ -36,12 +37,14 @@ module Minidown
 
     def parse_references
       while line = @lines.pop
-        match = line.gsub! RefRegexp[:link_ref_define] do
-          id, url, title = $1, $2, $3
+        line.gsub! RefRegexp[:link_ref_define] do
+          id, url = $1, $2
+          $3 =~ RefRegexp[:link_title]
+          title = $1
           links_ref[id.downcase] = {url: url, title: title}
-          nil
+          ''
         end
-        unless match
+        unless line.empty?
           @lines << line
           break
         end

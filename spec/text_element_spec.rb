@@ -80,6 +80,18 @@ HERE
             Minidown.parse(s).to_html.should == '<p>I get 10 times more traffic from <a href="http://google.com/" title="Google">Google</a> than from<br><a href="http://search.yahoo.com/" title="Yahoo Search">Yahoo</a> or <a href="http://search.msn.com/" title="MSN Search">MSN</a>.</p>'
           end
         end
+
+        it 'can ignore title' do
+          str =<<HERE
+I get 10 times more traffic from [Google][] than from
+[Yahoo][] or [MSN][].
+
+  [google]: http://google.com/        "Google"
+  [yahoo]:  http://search.yahoo.com/  
+  [msn]:    http://search.msn.com/    "MSN Search"
+HERE
+          Minidown.parse(str).to_html.should == '<p>I get 10 times more traffic from <a href="http://google.com/" title="Google">Google</a> than from<br><a href="http://search.yahoo.com/">Yahoo</a> or <a href="http://search.msn.com/" title="MSN Search">MSN</a>.</p>'
+        end
       end
 
       context 'auto link' do
