@@ -3,13 +3,25 @@
 require 'minidown'
 require 'optparse'
 
+Usage = "Usage: minidown FILE"
 OptionParser.new do |opts|
-  opts.banner = "Usage: minidown PATH/TO/FILE"
+  opts.banner = Usage
 
-  opts.on "-v", "--version", "Show current version" do |v|
-    STDOUT.puts Minidown::Version
+  opts.on_tail "-v", "--version", "Show current version" do |v|
+    STDOUT.puts Minidown::VERSION
+    exit
   end
-end
 
-p options
-p ARGV
+  opts.on_tail "-h", "--help", "Show this message" do |v|
+    STDOUT.puts opts
+    exit
+  end
+end.parse!
+
+file = ARGV.first
+if file
+  puts Minidown.parse(open(file).read).to_html
+else
+  $stderr.puts Usage
+  exit 1
+end
