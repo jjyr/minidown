@@ -40,6 +40,10 @@ module Minidown
                    doc.parse_line $1
                    nodes.pop
                  else
+                   if @blank
+                     unparsed_lines.unshift line
+                     break
+                   end
                    child.text
                  end
           contents << node
@@ -50,6 +54,7 @@ module Minidown
           @put_back << child
           break
         end
+        @blank = (LineElement === child)
       end
       children_range = (nodes.index(self) + 1)..-1
       children.push *nodes[children_range]
