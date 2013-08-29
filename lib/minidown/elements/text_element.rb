@@ -11,7 +11,9 @@ module Minidown
       link: /(?<!\!)\[(.+)\]\((.+)\)/,
       link_title: /((?<=").+(?="))/,
       link_url: /(\S+)/,
-      link_ref: /\[(.+?)\]\s*\[(.*?)\]/,
+      link_ref: /(?<!\!)\[(.+?)\]\s*\[(.*?)\]/,
+      image: /\!\[(.+)\]\((.+)\)/,
+      image_ref: /\!\[(.+?)\]\s*\[(.*?)\]/,
       star: /((?<!\\)\*{1,2})(\S+?)\1/,
       underline: /\A\s*((?<!\\)\_{1,2})(\S+)\1\s*\z/,
       quotlink: /\<(.+)\>/,
@@ -96,6 +98,32 @@ module Minidown
           end
         end
       end
+
+      #convert image reference
+      str.gsub! Regexp[:image_ref] do |origin_str|
+        alt = $1
+        id = ($2 && !$2.empty?) ? $2 : $1
+        ref = doc.links_ref[id.downcase]
+        if ref
+          attr = {src: ref[:url], alt: alt}
+          attr[:title] = ref[:title] if ref[:title] && !ref[:title].empty?
+          build_tag 'img', attr
+          else
+          origin_str
+        end
+      end
+
+      #convert image syntax
+      str.gsub! Regexp[:image] do
+        alt, url = $1, $2
+        url =~ Regexp[:link_title]
+        title = $1
+        url =~ Regexp[:link_url]
+        url = $1
+        attr = {src: url, alt: alt}
+        attr[:title] = title if title
+        build_tag 'img', attr
+        end
       
       #convert link reference
       str.gsub! Regexp[:link_ref] do |origin_str|

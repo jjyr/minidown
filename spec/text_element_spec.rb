@@ -198,7 +198,7 @@ A backtick-delimited string in a code span: `` `foo` ``'
           str = '![Alt text](/path/to/img.jpg)'
           Minidown.parse(str).to_html.should == "<p><img src=\"/path/to/img.jpg\" alt=\"Alt text\"></img></p>"
         end
-
+        
         it 'should have title' do
           str = "![Alt text](/path/to/img.jpg \"title\")"
           Minidown.parse(str).to_html.should == "<p><img src=\"/path/to/img.jpg\" alt=\"Alt text\" title=\"title\"></img></p>"
@@ -214,7 +214,7 @@ A backtick-delimited string in a code span: `` `foo` ``'
 [img2]: url/to/image2 
 [img3]: url/to/image3  "Image 3"
 HERE
-          Minidown.parse(str).to_html.should == "<p><img src=\"url/to/image1\" alt=\"Image 1\" title=\"Image 1\"></img><img src=\"url/to/image2\" alt=\"Image 2\"></img><img src=\"url/to/image3\" alt=\"Image 3\" title=\"Image 3\"></img></p>"
+          Minidown.parse(str).to_html.should == "<p><img src=\"url/to/image1\" alt=\"Image 1\" title=\"Image 1\"></img><br><img src=\"url/to/image2\" alt=\"Image 2\"></img><br><img src=\"url/to/image3\" alt=\"Image 3\" title=\"Image 3\"></img></p>"
         end
       end
     end
