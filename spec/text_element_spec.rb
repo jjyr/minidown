@@ -180,6 +180,9 @@ A backtick-delimited string in a code span: `` `foo` ``'
           Minidown.parse(str).to_html.should == "<p>Please don&#39;t use any <code>&lt;blink&gt;</code> tags.</p>"
         end
       end
+
+      context 'image syntax' do
+      end
     end
   end
 end
