@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = Minidown::VERSION
   spec.authors       = ["jjy"]
   spec.email         = ["jjyruby@gmail.com"]
-  spec.description   = %q{Yet another no dependencies, light weight markdown parser, write in pure ruby, follow GFM}
+  spec.description   = %q{Yet another light weight, no dependencies markdown parser, write in pure ruby, follow GFM}
   spec.summary       = %q{Minidown is a light weight markdown parser}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/jjyr/minidown"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
