@@ -27,7 +27,7 @@ module Minidown
     def initialize *_
       super
       @escape = true
-      @escape_html = true
+      @escape_content = true
       @convert = true
     end
     
@@ -39,7 +39,7 @@ module Minidown
       str = super
       str = convert_str(str) if convert
       escape_str! str
-      escape_html str
+      escape_content! str
       str
     end
 
@@ -48,9 +48,14 @@ module Minidown
     end
 
     def escape_html str
-      return str unless @escape_html
       str.gsub! "<", "&lt;"
       str.gsub! ">", "&gt;"
+      str
+    end
+
+    def escape_content! str
+      return str unless @escape_content
+      escape_html str
       
       str.gsub! Regexp[:tag] do
         tag = $1
@@ -155,13 +160,13 @@ module Minidown
         end
       end
 
-      str = escape_html(str)
-      @escape_html = false
-     
+      escape_content! str
+      @escape_content = false
+           
       #inline code
       str.gsub! Regexp[:inline_code] do |origin_str|
         build_tag 'code' do |code|
-          code << CGI.escape_html($2)
+          code << escape_html($2)
         end
       end
       escape_str! str
