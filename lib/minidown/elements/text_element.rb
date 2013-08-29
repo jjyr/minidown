@@ -38,12 +38,16 @@ module Minidown
     def content
       str = super
       str = convert_str(str) if convert
-      str = escape_str(str)
+      escape_str! str
+      str = escape_html str
       str
     end
 
-    def escape_str str
+    def escape_str! str
       str.gsub!(EscapeRegexp, '\\1') if escape
+    end
+
+    def escape_html str
       return str unless @escape_html
       str = CGI.escape_html str
       str.gsub! Regexp[:tag] do
@@ -123,9 +127,8 @@ module Minidown
         end
       end
 
-      o_escape, @escape = @escape, false
-      str = escape_str(str)
-      @escape_html, @escape = false, o_escape
+      str = escape_html(str)
+      @escape_html = false
      
       #inline code
       str.gsub! Regexp[:inline_code] do |origin_str|
@@ -133,7 +136,8 @@ module Minidown
           code << CGI.escape_html($2)
         end
       end
-      str = escape_str(str)
+      escape_str! str
+      @escape = false
       str
     end
 
