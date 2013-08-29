@@ -14,7 +14,7 @@ module Minidown
       link_ref: /(?<!\!)\[(.+?)\]\s*\[(.*?)\]/,
       image: /\!\[(.+)\]\((.+)\)/,
       image_ref: /\!\[(.+?)\]\s*\[(.*?)\]/,
-      star: /((?<!\\)\*{1,2})(\S+?)\1/,
+      star: /((?<!\\)\*{1,2})(.+?)\1/,
       underline: /\A\s*((?<!\\)\_{1,2})(\S+)\1\s*\z/,
       quotlink: /\<(.+)\>/,
       link_scheme: /\A\S+\:\/\//,
@@ -88,7 +88,7 @@ module Minidown
                end
         attr ? build_tag('a', attr){|a| a << link} : origin_str
       end
-      
+           
       #parse * _
       Regexp.values_at(:star, :underline).each do |regex|
         str.gsub! regex do |origin_str|

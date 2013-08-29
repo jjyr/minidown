@@ -169,6 +169,11 @@ HERE
         it 'should allow escape' do
           Minidown.parse("\\*\\_\\*").to_html.should == '<p>*_*</p>'
         end
+
+        it 'should work well' do
+          str = "*View the [source of this content](http://github.github.com/github-flavored-markdown/sample_content.html).*"
+          Minidown.parse(str).to_html.should == "<p><em>View the <a href=\"http://github.github.com/github-flavored-markdown/sample_content.html\">source of this content</a>.</em></p>"
+        end
       end
 
       context 'inline code' do
