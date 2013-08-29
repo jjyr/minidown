@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+require 'minidown'
+require 'optparse'
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: minidown PATH/TO/FILE"
+
+  opts.on "-v", "--version", "Show current version" do |v|
+    STDOUT.puts Minidown::Version
+  end
+end
+
+p options
+p ARGV

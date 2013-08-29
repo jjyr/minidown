@@ -2,7 +2,7 @@
 
 Minidown is yet another markdown parser, with:
 
-* light weight, on dependencies
+* light weight, no dependencies
 
 * pure ruby
 
@@ -30,6 +30,15 @@ require 'minidown'
 Minidown.parse('*hello*').to_html
 #=> "<p><em>hello</em></p>"
 ```
+
+or command line
+
+```
+wget https://raw.github.com/mojombo/github-flavored-markdown/gh-pages/_site/sample_content.md
+minidown sample_content.md > result.html
+open result.html
+```
+looks nice!
 
 ## Contributing
 
