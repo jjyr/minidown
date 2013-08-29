@@ -1,4 +1,4 @@
-# Minidown
+# Minidown  [![Build Status](https://travis-ci.org/jjyr/minidown.png?branch=master)](https://travis-ci.org/jjyr/minidown)
 
 Minidown is yet another markdown parser, with:
 
