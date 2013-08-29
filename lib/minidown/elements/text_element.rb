@@ -8,7 +8,7 @@ module Minidown
     Regexp = {
       tag: /&lt;(.+?)&gt;/,
       quot: /&quot;/,
-      link: /\[(.+)\]\((.+)\)/,
+      link: /(?<!\!)\[(.+)\]\((.+)\)/,
       link_title: /((?<=").+(?="))/,
       link_url: /(\S+)/,
       link_ref: /\[(.+?)\]\s*\[(.*?)\]/,

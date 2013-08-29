@@ -194,6 +194,28 @@ A backtick-delimited string in a code span: `` `foo` ``'
       end
 
       context 'image syntax' do
+        it 'should parse correct' do
+          str = '![Alt text](/path/to/img.jpg)'
+          Minidown.parse(str).to_html.should == "<p><img src=\"/path/to/img.jpg\" alt=\"Alt text\"></img></p>"
+        end
+
+        it 'should have title' do
+          str = "![Alt text](/path/to/img.jpg \"title\")"
+          Minidown.parse(str).to_html.should == "<p><img src=\"/path/to/img.jpg\" alt=\"Alt text\" title=\"title\"></img></p>"
+        end
+
+        it 'should allow reference' do
+          str =<<HERE
+![Image 1][img1]
+![Image 2][img2]
+![Image 3][img3]
+
+[img1]: url/to/image1  "Image 1"
+[img2]: url/to/image2 
+[img3]: url/to/image3  "Image 3"
+HERE
+          Minidown.parse(str).to_html.should == "<p><img src=\"url/to/image1\" alt=\"Image 1\" title=\"Image 1\"></img><img src=\"url/to/image2\" alt=\"Image 2\"></img><img src=\"url/to/image3\" alt=\"Image 3\" title=\"Image 3\"></img></p>"
+        end
       end
     end
   end
