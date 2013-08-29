@@ -1,6 +1,12 @@
 # Minidown
 
-TODO: Write a gem description
+Minidown is yet another markdown parser, with:
+
+* light weight, on dependencies
+
+* pure ruby
+
+* follow GFM(GitHub Flavored Markdown)
 
 ## Installation
 
@@ -18,7 +24,12 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+require 'minidown'
+
+Minidown.parse('*hello*').to_html
+#=> "<p><em>hello</em></p>"
+```
 
 ## Contributing
 
