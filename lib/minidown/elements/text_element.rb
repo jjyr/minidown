@@ -1,5 +1,3 @@
-require 'cgi'
-
 module Minidown
   class TextElement < Element
     EscapeChars = %w{# &gt; * + \- ` _ { } ( ) . ! \[ \]}
@@ -41,7 +39,7 @@ module Minidown
       str = super
       str = convert_str(str) if convert
       escape_str! str
-      str = escape_html str
+      escape_html str
       str
     end
 
@@ -51,7 +49,9 @@ module Minidown
 
     def escape_html str
       return str unless @escape_html
-      str = CGI.escape_html str
+      str.gsub! "<", "&lt;"
+      str.gsub! ">", "&gt;"
+      
       str.gsub! Regexp[:tag] do
         tag = $1
         tag.gsub! Regexp[:quot] do

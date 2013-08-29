@@ -194,7 +194,7 @@ A backtick-delimited string in a code span: `` `foo` ``'
 
         it 'should auto escape' do
           str = "Please don't use any `<blink>` tags."
-          Minidown.parse(str).to_html.should == "<p>Please don&#39;t use any <code>&lt;blink&gt;</code> tags.</p>"
+          Minidown.parse(str).to_html.should == "<p>Please don't use any <code>&lt;blink&gt;</code> tags.</p>"
         end
       end
 
