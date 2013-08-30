@@ -47,6 +47,11 @@ HERE
           Minidown.parse(str).to_html.should == "<#{tag}>title</#{tag}><p>should show text</p>"
         end
       end
+
+      it 'should not parse as h2 if preline is h tag' do
+        str = "#### [ruby](http://ruby-lang.org/)\n---"
+        Minidown.parse(str).to_html.should == "<h4><a href=\"http://ruby-lang.org/\">ruby</a></h4><hr>"
+      end
     end
   end
 end
