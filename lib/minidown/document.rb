@@ -61,20 +61,26 @@ module Minidown
       when regexp[:blank_line] =~ line
         # blankline
         newline line
-      when !pre_blank? && regexp[:h1_or_h2] =~ line && (HtmlElement === nodes.last ? !(nodes.last.name =~ TagRegexp[:h1h6]) : true)
+      when !pre_blank? && (result = regexp[:h1_or_h2] =~ line; next_line = $2; result) && ParagraphElement === nodes.last
         # ======== or -------
-        lines.unshift $2 if $2 && !$2.empty?
-        html_tag nodes.pop, (line[0] == '=' ? 'h1' : 'h2')
+        break_if_list line do
+          lines.unshift next_line if next_line && !next_line.empty?
+          html_tag nodes.pop, (line[0] == '=' ? 'h1' : 'h2')
+        end
       when regexp[:start_with_shape] =~ line
         # ####h4
-        text $2
-        html_tag nodes.pop, "h#{$1.size}"
+        break_if_list line do
+          text $2
+          html_tag nodes.pop, "h#{$1.size}"
+        end
       when regexp[:start_with_quote] =~ line
         # > blockquote        
         inblock{block $1}
       when regexp[:dividing_line] =~ line
         # * * * - - -
-        dividing_line line
+        break_if_list line do
+          dividing_line line
+        end
       when (pre_blank? || UnorderListElement === nodes.last) && regexp[:unorder_list] =~ line
         # * + -
         inblock{ul $1}
@@ -106,6 +112,16 @@ module Minidown
         @inblock = true
         yield
         @inblock = false
+      end
+    end
+
+    def break_if_list line
+      node = nodes.last
+      if @inblock && (UnorderListElement === node || OrderListElement === node)
+        @lines.unshift line
+        nodes << nil
+      else
+        yield
       end
     end
   end

@@ -43,7 +43,7 @@ module Minidown
           child.display = false
           nodes << child
         else
-          @put_back << child
+          @put_back << child if child
           break
         end
         @blank = (LineElement === child)
