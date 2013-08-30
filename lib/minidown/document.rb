@@ -6,6 +6,10 @@ module Minidown
       link_ref_define: /\A\s*\[(.+)\]\:\s+(\S+)\s*(.*)/,
       link_title: /((?<=\").+(?=\"))/
     }
+
+    TagRegexp ={
+      h1h6: /\Ah[1-6]\z/
+    }
     
     def initialize lines
       @lines = lines
@@ -57,7 +61,7 @@ module Minidown
       when regexp[:blank_line] =~ line
         # blankline
         newline line
-      when !pre_blank? && regexp[:h1_or_h2] =~ line
+      when !pre_blank? && regexp[:h1_or_h2] =~ line && (HtmlElement === nodes.last ? !(nodes.last.name =~ TagRegexp[:h1h6]) : true)
         # ======== or -------
         lines.unshift $2 if $2 && !$2.empty?
         html_tag nodes.pop, (line[0] == '=' ? 'h1' : 'h2')
