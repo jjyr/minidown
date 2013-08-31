@@ -35,18 +35,18 @@ module Minidown
           break
         when ParagraphElement
           contents = @lists.last.contents
-          node = if line =~ IndentRegexp
-                   contents.push(contents.pop.paragraph) if TextElement === contents.last
-                   doc.parse_line $1
-                   nodes.pop
-                 else
-                   if @blank
-                     unparsed_lines.unshift line
-                     break
-                   end
-                   child.text
-                 end
-          contents << node
+          if line =~ IndentRegexp
+            doc.parse_line $1
+            node = nodes.pop
+            contents.push(contents.pop.paragraph) if node && TextElement === contents.last
+          else
+            if @blank
+              unparsed_lines.unshift line
+              break
+            end
+            node = child.text
+          end
+          contents << node if node
         when LineElement
           child.display = false
           nodes << child
