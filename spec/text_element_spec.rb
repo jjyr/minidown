@@ -125,7 +125,7 @@ HERE
 
         it 'can parse multi email' do
           str = "jjyruby@gmail.com jjyruby@gmail.com"
-          Minidown.parse(str).to_html.should == "<p><a href=\"mailto:jjyruby@gmail.com\">jjyruby@gmail.com</a><a href=\"mailto:jjyruby@gmail.com\">jjyruby@gmail.com</a></p>"
+          Minidown.parse(str).to_html.should == "<p><a href=\"mailto:jjyruby@gmail.com\">jjyruby@gmail.com</a> <a href=\"mailto:jjyruby@gmail.com\">jjyruby@gmail.com</a></p>"
         end
 
         it 'should not parse email in tag' do
