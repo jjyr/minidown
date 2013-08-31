@@ -52,6 +52,9 @@ _
 
 [This link](http://example.net/) has no title attribute.}
           Minidown.parse(str).to_html.should == %Q{<p>This is <a href="http://example.com/" title="Title">an example</a> inline link.</p><p><a href="http://example.net/">This link</a> has no title attribute.</p>}
+
+          str = '[link a](https://a.example.com) and [link b](https://b.example.com)'
+          Minidown.parse(str).to_html.should == "<p><a href=\"https://a.example.com\">link a</a> and <a href=\"https://b.example.com\">link b</a></p>"
         end
 
         it 'should allow related path' do
