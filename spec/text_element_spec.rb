@@ -105,7 +105,7 @@ HERE
 
         it 'can parse multi link' do
           str = "https://github.com/jjyr/minidown https://github.com"
-          Minidown.parse(str).to_html.should == "<p><a href=\"https://github.com/jjyr/minidown\">https://github.com/jjyr/minidown</a><a href=\"https://github.com\">https://github.com</a></p>"
+          Minidown.parse(str).to_html.should == "<p><a href=\"https://github.com/jjyr/minidown\">https://github.com/jjyr/minidown</a> <a href=\"https://github.com\">https://github.com</a></p>"
         end
 
         it 'should not parse link in tag' do

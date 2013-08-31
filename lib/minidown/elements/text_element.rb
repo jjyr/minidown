@@ -18,7 +18,7 @@ module Minidown
       link_scheme: /\A\S+?\:\/\//,
       email: /\A[A-Za-z0-9]+@[A-Za-z0-9]+\.[A-Za-z0-9]+/,
       auto_email: /(?<!\S)[A-Za-z0-9]+@[A-Za-z0-9]+\.[A-Za-z0-9]+(?!\S)/,
-      auto_link: /(?<!\S)\w+\:\/\/.+(?!\S)/,
+      auto_link: /(?<!\S)\w+?\:\/\/.+?(?!\S)/,
       inline_code: /(?<!\\)(`+)\s*(.+?)\s*(?<!\\)\1/
     }
 
