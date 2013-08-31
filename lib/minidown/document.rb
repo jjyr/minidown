@@ -4,7 +4,7 @@ module Minidown
 
     RefRegexp = {
       link_ref_define: /\A\s*\[(.+)\]\:\s+(\S+)\s*(.*)/,
-      link_title: /((?<=\").+(?=\"))/
+      link_title: /((?<=\").+?(?=\"))/
     }
 
     TagRegexp ={
