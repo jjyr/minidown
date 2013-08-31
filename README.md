@@ -4,7 +4,7 @@ Minidown is yet another markdown parser, with:
 
 * light weight, no dependencies
 
-* pure ruby
+* pure ruby and fast
 
 * follow GFM(GitHub Flavored Markdown)
 
