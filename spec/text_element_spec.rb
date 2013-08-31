@@ -103,6 +103,11 @@ HERE
           Minidown.parse(str).to_html.should == "<p><a href=\"#{str}\">#{str}</a></p>"
         end
 
+        it 'can parse multi link' do
+          str = "https://github.com/jjyr/minidown https://github.com"
+          Minidown.parse(str).to_html.should == "<p><a href=\"https://github.com/jjyr/minidown\">https://github.com/jjyr/minidown</a><a href=\"https://github.com\">https://github.com</a></p>"
+        end
+
         it 'should not parse link in tag' do
           str = "<a href=\"https://github.com/jjyr/minidown\">minidown</a>"
           Minidown.parse(str).to_html.should == "<p>#{str}</p>"
@@ -116,6 +121,11 @@ HERE
         it 'should parse email address' do
           str = "jjyruby@gmail.com"
           Minidown.parse(str).to_html.should == "<p><a href=\"mailto:#{str}\">#{str}</a></p>"
+        end
+
+        it 'can parse multi email' do
+          str = "jjyruby@gmail.com jjyruby@gmail.com"
+          Minidown.parse(str).to_html.should == "<p><a href=\"mailto:jjyruby@gmail.com\">jjyruby@gmail.com</a><a href=\"mailto:jjyruby@gmail.com\">jjyruby@gmail.com</a></p>"
         end
 
         it 'should not parse email in tag' do
@@ -213,6 +223,11 @@ HERE
 
 A backtick-delimited string in a code span: `` `foo` ``'
           Minidown.parse(str).to_html.should == '<p>A single backtick in a code span: <code>`</code></p><p>A backtick-delimited string in a code span: <code>`foo`</code></p>'
+        end
+
+        it 'can parse multi inline code' do
+          str = "`hello` `world`"
+          Minidown.parse(str).to_html.should == "<p><code>hello</code> <code>world</code></p>"
         end
 
         it 'should auto escape' do
