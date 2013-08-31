@@ -139,6 +139,26 @@ HERE
         end
       end
 
+      context '~~del~~' do
+        it 'should parse correct' do
+          str = '~~del~~'
+          Minidown.parse(str).to_html.should == '<p><del>del</del></p>'
+
+          str = '~~i am del~~ and ~~i am another del~~'
+          Minidown.parse(str).to_html.should == '<p><del>i am del</del>and<del>i am another del</del></p>'
+        end
+
+        it 'should not allow space' do
+          str = '~~ del ~~'
+          Minidown.parse(str).to_html.should == '<p>~~ del ~~</p>'
+        end
+
+        it 'should allow escape' do
+          str = "\\~~del~~"
+          Minidown.parse(str).to_html.should == '<p>~~del~~</p>'
+        end
+      end
+
       context '*_ em & strong' do
         it 'parse as em' do
           ['*', '_'].each do |c|
