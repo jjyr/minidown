@@ -116,6 +116,13 @@ HERE
 Hi.'
         Minidown.parse(str).to_html.should == "<ul><li><p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>\n<p>Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi,</p>\n<p>viverra nec, fringilla in, laoreet vitae, risus.</p></li><li><p>Donec sit amet nisl. Aliquam semper ipsum sit amet velit.</p>\n<p>Suspendisse id sem consectetuer libero luctus adipiscing.</p></li></ul><hr><p>Hi.</p>"
       end
+
+      it 'list with indent' do
+        str ='* first
+start with
+      #and indent'
+        Minidown.parse(str).to_html.should == "<ul><li>first\nstart with</li></ul><h1>and indent</h1>"
+      end
     end
 
     describe 'ol' do
@@ -237,6 +244,13 @@ HERE
 ---
 Hi.'
         Minidown.parse(str).to_html.should == "<ol><li><p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>\n<p>Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi,</p>\n<p>viverra nec, fringilla in, laoreet vitae, risus.</p></li><li><p>Donec sit amet nisl. Aliquam semper ipsum sit amet velit.</p>\n<p>Suspendisse id sem consectetuer libero luctus adipiscing.</p></li></ol><hr><p>Hi.</p>"
+      end
+
+      it 'list with indent' do
+        str ='1. first
+start with
+      #and indent'
+        Minidown.parse(str).to_html.should == "<ol><li>first\nstart with</li></ol><h1>and indent</h1>"
       end
     end
   end
