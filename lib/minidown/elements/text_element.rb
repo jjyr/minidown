@@ -14,7 +14,7 @@ module Minidown
       image_ref: /\!\[(.+?)\]\s*\[(.*?)\]/,
       star: /((?<!\\)\*{1,2})(.+?)\1/,
       underline: /\A\s*((?<!\\)\_{1,2})(\S+)\1\s*\z/,
-      delete_line: /(?<!\\)~~(\S.+?\S)~~/,
+      delete_line: /(?<!\\)~~(?!\s)(.+?)(?<!\s)~~/,
       quotlink: /\<(.+?)\>/,
       link_scheme: /\A\S+?\:\/\//,
       email: /\A[A-Za-z0-9]+@[A-Za-z0-9]+\.[A-Za-z0-9]+/,

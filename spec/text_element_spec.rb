@@ -151,11 +151,16 @@ HERE
 
       context '~~del~~' do
         it 'should parse correct' do
-          str = '~~del~~'
-          Minidown.parse(str).to_html.should == '<p><del>del</del></p>'
+          ['del', 'd', 'i am del'].each do |w|
+            str = "~~#{w}~~"
+            Minidown.parse(str).to_html.should == "<p><del>#{w}</del></p>"
+          end
+        end
 
+        it 'should allow mutil in oneline' do          
           str = '~~i am del~~ and ~~i am another del~~'
           Minidown.parse(str).to_html.should == '<p><del>i am del</del> and <del>i am another del</del></p>'
+
         end
 
         it 'should not allow space' do
