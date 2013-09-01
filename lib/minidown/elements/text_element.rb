@@ -1,6 +1,6 @@
 module Minidown
   class TextElement < Element
-    EscapeChars = %w{# &gt; * + \- ` _ { } ( ) . ! \[ \]}
+    EscapeChars = %w{# &gt; * + \- ` _ { } ( ) . ! \[ \] ~}
     EscapeRegexp = /\\([#{EscapeChars.join '|'}])|\\(\\)/
    
     Regexp = {
@@ -14,6 +14,7 @@ module Minidown
       image_ref: /\!\[(.+?)\]\s*\[(.*?)\]/,
       star: /((?<!\\)\*{1,2})(.+?)\1/,
       underline: /\A\s*((?<!\\)\_{1,2})(\S+)\1\s*\z/,
+      delete_line: /(?<!\\)~~(\S.+?\S)~~/,
       quotlink: /\<(.+?)\>/,
       link_scheme: /\A\S+?\:\/\//,
       email: /\A[A-Za-z0-9]+@[A-Za-z0-9]+\.[A-Za-z0-9]+/,
@@ -101,6 +102,13 @@ module Minidown
           build_tag tag_name do |tag|
             tag << $2
           end
+        end
+      end
+
+      #parse ~~del~~
+      str.gsub! Regexp[:delete_line] do |origin_str|
+        build_tag 'del' do |tag|
+          tag << $1
         end
       end
 

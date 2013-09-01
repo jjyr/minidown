@@ -155,7 +155,7 @@ HERE
           Minidown.parse(str).to_html.should == '<p><del>del</del></p>'
 
           str = '~~i am del~~ and ~~i am another del~~'
-          Minidown.parse(str).to_html.should == '<p><del>i am del</del>and<del>i am another del</del></p>'
+          Minidown.parse(str).to_html.should == '<p><del>i am del</del> and <del>i am another del</del></p>'
         end
 
         it 'should not allow space' do
