@@ -253,5 +253,17 @@ start with
         Minidown.parse(str).to_html.should == "<ol><li>first\nstart with</li></ol><h1>and indent</h1>"
       end
     end
+
+    describe 'other case' do
+      it 'should parse nest ul' do
+        str = '+ ul 1
++ ul 2
+   + ul 3
+   + ul 4
+        + ul 5
+   + ul 6'
+        Minidown.parse(str).to_html.should == '<ul><li>ul 1</li><li>ul 2<ul><li>ul 3</li><li>ul 4<ul><li>ul 5</li></ul></li><li>ul 6</li></ul></li></ul>'
+      end
+    end
   end
 end
