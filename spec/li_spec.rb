@@ -267,6 +267,18 @@ start with
 <ul><li>ul 5</li></ul></li><li>ul 6</li></ul></li></ul>'
       end
 
+      it 'should parse nest ol' do
+        str = '1. ol 1
+2. ol 2
+   1. ol 3
+   123. ol 4
+        2. ol 5
+   3. ol 6'
+        Minidown.parse(str).to_html.should == '<ol><li>ol 1</li><li>ol 2
+<ol><li>ol 3</li><li>ol 4
+<ol><li>ol 5</li></ol></li><li>ol 6</li></ol></li></ol>'
+      end
+
       it 'should parse correct' do
         str = '+ ul 1
 + ul 2
