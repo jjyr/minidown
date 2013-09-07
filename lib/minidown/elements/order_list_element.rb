@@ -1,19 +1,44 @@
 module Minidown
   class OrderListElement < Element
     IndentRegexp = /\A\s{4,}(.+)/
-
-    attr_accessor :lists
+    StartWithBlankRegexp = /\A\s+/
+    NestRegexp = /\A(\s+)\d+\.\s+(.+)/
     
-    def initialize *_
-      super
+    attr_accessor :lists, :indent_level
+    
+    def initialize doc, line, indent_level = 0
+      super doc, line
       @children << ListElement.new(doc, content)
       @lists = @children.dup
+      @indent_level = indent_level
       @put_back = []
     end
     
     def parse
       nodes << self
       while line = unparsed_lines.shift
+        #handle nested ul
+        if line =~ NestRegexp
+          li, str = $1.size, $2
+          if li > @indent_level
+            OrderListElement.new(doc, str, li).parse
+            @lists.last.contents << nodes.pop
+            next
+          elsif li == @indent_level
+            OrderListElement.new(doc, str, li).parse
+            child = nodes.pop 
+            if LineElement === nodes.last
+              @lists.last.p_tag_content = child.lists.first.p_tag_content = true
+            end
+            nodes.push *child.children
+            @lists.push *child.lists
+            next
+          else
+            unparsed_lines.unshift line
+            break
+          end
+        end
+        
         doc.parse_line line
         child = nodes.pop
         case child
@@ -39,8 +64,14 @@ module Minidown
           end
           contents << node if node
         when LineElement
-          child.display = false
-          nodes << child
+          next_line = unparsed_lines.first
+          if next_line.empty? || StartWithBlankRegexp === next_line || Utils::Regexp[:order_list] === next_line
+            child.display = false
+            nodes << child
+          else
+            unparsed_lines.unshift line
+            break
+          end
         else
           @put_back << child if child
           break

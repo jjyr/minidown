@@ -223,7 +223,7 @@ HERE
 > This is a blockquote
     > inside a list item.
 HERE
-        Minidown.parse(str).to_html.should == "<ol><li>A list item with a blockquote:</li></ol><blockquote><p>This is a blockquote</p><p>inside a list item.</p></blockquote>"
+        Minidown.parse(str).to_html.should == "<ol><li>A list item with a blockquote:</li></ol><br><blockquote><p>This is a blockquote</p><p>inside a list item.</p></blockquote>"
       end
 
       it 'newline' do
@@ -232,7 +232,7 @@ HERE
 
 Newline
 HERE
-        Minidown.parse(str).to_html.should == "<ol><li>A list</li></ol><p>Newline</p>"
+        Minidown.parse(str).to_html.should == "<ol><li>A list</li></ol><br><p>Newline</p>"
       end
 
       it 'should parse correct' do
