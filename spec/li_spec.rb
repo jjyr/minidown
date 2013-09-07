@@ -266,6 +266,23 @@ start with
 <ul><li>ul 3</li><li>ul 4
 <ul><li>ul 5</li></ul></li><li>ul 6</li></ul></li></ul>'
       end
+
+      it 'should parse correct' do
+        str = '+ ul 1
++ ul 2
+   + ul 3
+   + ul 4
+        + ul 5
+   + ul 6
+
+1. ul a
+1. ul b
+1. ul c
+1. ul d'
+        Minidown.parse(str).to_html.should == '<ul><li>ul 1</li><li>ul 2
+<ul><li>ul 3</li><li>ul 4
+<ul><li>ul 5</li></ul></li><li>ul 6</li></ul></li></ul><ol><li>ul a</li><li>ul b</li><li>ul c</li><li>ul d</li></ol>'
+      end
     end
   end
 end
