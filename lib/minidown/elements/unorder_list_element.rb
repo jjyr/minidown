@@ -21,25 +21,18 @@ module Minidown
       @indent_level = indent_level
       @put_back = []
     end
-
-    def current_list li
-      nodes.reverse.find{|ul| ul.indent_level <= li}
-    end
     
     def parse
       nodes << self
       while line = unparsed_lines.shift
-        #binding.pry
+        #handle nested ul
         if line =~ NestRegexp
           li, str = $1.size, $2
           if li > @indent_level
-            binding.pry if str.nil?
             UnorderListElement.new(doc, str, li).parse
             @lists.last.contents << nodes.pop
             next
           elsif li == @indent_level
-            #binding.pry
-            #doc.parse_line line
             UnorderListElement.new(doc, str, li).parse
             child = nodes.pop 
             if LineElement === nodes.last
@@ -48,18 +41,12 @@ module Minidown
             nodes.push *child.children
             @lists.push *child.lists
             next
-          else# li == @indent_level
+          else
             unparsed_lines.unshift line
-             # doc.parse_line line
-            # child = nodes.pop 
-            # if LineElement === nodes.last
-            #   @lists.last.p_tag_content = child.lists.first.p_tag_content = true
-            # end
-            # nodes.push *child.children
-            # @lists.push *child.lists
             break
           end
         end
+        
         doc.parse_line line
         child = nodes.pop        
         case child
