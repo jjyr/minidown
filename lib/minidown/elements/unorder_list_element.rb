@@ -1,6 +1,7 @@
 module Minidown
   class UnorderListElement < Element
     IndentRegexp = /\A\s{4,}(.+)/
+    StartWithBlankRegexp = /\A\s+/
     TaskRegexp = /\A\[([ x])\](.+)/
     NestRegexp = /\A(\s+)[*\-+]\s+(.+)/
 
@@ -25,6 +26,7 @@ module Minidown
     def parse
       nodes << self
       while line = unparsed_lines.shift
+        #binding.pry
         #handle nested ul
         if line =~ NestRegexp
           li, str = $1.size, $2
@@ -72,8 +74,28 @@ module Minidown
           end
           contents << node if node
         when LineElement
-          child.display = false
-          nodes << child
+          #next_line = unparsed_lines.shift
+          #doc.parse_line next_line
+          #node = nodes.pop
+          #unparsed_lines.unshift next_line
+          #binding.pry
+          next_line = unparsed_lines.first
+          if next_line.empty? || StartWithBlankRegexp === next_line || Utils::Regexp[:unorder_list] === next_line
+          
+            child.display = false
+            nodes << child
+          else
+            #binding.pry
+            #child.display = false
+            #nodes << child
+            unparsed_lines.unshift line
+            break
+          end
+          #nodes << child
+          #@put_back << child
+        when OrderListElement
+          unparsed_lines.unshift line
+          break
         else
           @put_back << child if child
           break
