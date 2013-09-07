@@ -262,7 +262,9 @@ start with
    + ul 4
         + ul 5
    + ul 6'
-        Minidown.parse(str).to_html.should == '<ul><li>ul 1</li><li>ul 2<ul><li>ul 3</li><li>ul 4<ul><li>ul 5</li></ul></li><li>ul 6</li></ul></li></ul>'
+        Minidown.parse(str).to_html.should == '<ul><li>ul 1</li><li>ul 2
+<ul><li>ul 3</li><li>ul 4
+<ul><li>ul 5</li></ul></li><li>ul 6</li></ul></li></ul>'
       end
     end
   end

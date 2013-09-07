@@ -2,11 +2,12 @@ module Minidown
   class UnorderListElement < Element
     IndentRegexp = /\A\s{4,}(.+)/
     TaskRegexp = /\A\[([ x])\](.+)/
+    NestRegexp = /\A(\s+)[*\-+]\s+(.+)/
 
-    attr_accessor :lists
+    attr_accessor :lists, :indent_level
     
-    def initialize *_
-      super
+    def initialize doc, line, indent_level = 0
+      super doc, line
       if content =~ TaskRegexp
         @task_ul ||= true
         list = ListElement.new(doc, $2)
@@ -17,14 +18,50 @@ module Minidown
       end
       @children << list
       @lists = @children.dup
+      @indent_level = indent_level
       @put_back = []
+    end
+
+    def current_list li
+      nodes.reverse.find{|ul| ul.indent_level <= li}
     end
     
     def parse
       nodes << self
       while line = unparsed_lines.shift
+        #binding.pry
+        if line =~ NestRegexp
+          li, str = $1.size, $2
+          if li > @indent_level
+            binding.pry if str.nil?
+            UnorderListElement.new(doc, str, li).parse
+            @lists.last.contents << nodes.pop
+            next
+          elsif li == @indent_level
+            #binding.pry
+            #doc.parse_line line
+            UnorderListElement.new(doc, str, li).parse
+            child = nodes.pop 
+            if LineElement === nodes.last
+              @lists.last.p_tag_content = child.lists.first.p_tag_content = true
+            end
+            nodes.push *child.children
+            @lists.push *child.lists
+            next
+          else# li == @indent_level
+            unparsed_lines.unshift line
+             # doc.parse_line line
+            # child = nodes.pop 
+            # if LineElement === nodes.last
+            #   @lists.last.p_tag_content = child.lists.first.p_tag_content = true
+            # end
+            # nodes.push *child.children
+            # @lists.push *child.lists
+            break
+          end
+        end
         doc.parse_line line
-        child = nodes.pop
+        child = nodes.pop        
         case child
         when UnorderListElement
           if LineElement === nodes.last
