@@ -9,8 +9,7 @@ module Minidown
       nodes << self
       while line = unparsed_lines.shift
         #handle nested list
-        if (ul = line =~ /\A(\s+)[*\-+]\s+(.+)/) || line =~ /\A(\s+)\d+\.\s+(.+)/ 
-          list_class = ul ? UnorderListElement : OrderListElement
+        if (line =~ UnorderListElement::NestRegexp && list_class = UnorderListElement) || (line =~ OrderListElement::NestRegexp && list_class = OrderListElement) 
           li, str = $1.size, $2
           if li > @indent_level
             list_class.new(doc, str, li).parse
@@ -64,17 +63,9 @@ module Minidown
             unparsed_lines.unshift line
             break
           end
-        # when OrderListElement
-        #   unparsed_lines.unshift line
-        #   break
         else
-          # if /\A\s+(.+)/ =~ line
-          #   @lists.last.contents << child
-          #   next
-          # else
-            @put_back << child if child
-            break
-          # end
+          @put_back << child if child
+          break
         end
         @blank = (LineElement === child)
       end
