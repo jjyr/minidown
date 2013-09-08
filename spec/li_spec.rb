@@ -295,6 +295,28 @@ start with
 <ul><li>ul 3</li><li>ul 4
 <ul><li>ul 5</li></ul></li><li>ul 6</li></ul></li></ul><br><ol><li>ul a</li><li>ul b</li><li>ul c</li><li>ul d</li></ol>'
       end
+
+      it 'mixed list should parsed correct' do
+        str = '* ul1
+ 1. ol
+ 2. ol
+ 3. ol
+
+* ul2
+* ul3
+ 1.  ol
+ 2.  ol
+ 3.  ol
+ 4.  ol
+ 5.  ol
+
++ ul4
++ ul5
+ 1. ol
+ 2. ol
+ 3. ol'
+        Minidown.parse(str).to_html.should == '<ul><li><p>ul1</p><ol><li>ol</li><li>ol</li><li>ol</li></ol></li><li><p>ul2</p></li><li><p>ul3</p><ol><li> ol</li><li> ol</li><li> ol</li><li> ol</li><li> ol</li></ol></li><li><p>ul4</p></li><li><p>ul5</p><ol><li>ol</li><li>ol</li><li>ol</li></ol></li></ul>'
+      end
     end
   end
 end
