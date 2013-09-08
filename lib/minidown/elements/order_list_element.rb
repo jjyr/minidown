@@ -65,7 +65,7 @@ module Minidown
           contents << node if node
         when LineElement
           next_line = unparsed_lines.first
-          if next_line.empty? || StartWithBlankRegexp === next_line || Utils::Regexp[:order_list] === next_line
+          if next_line.nil? || next_line.empty? || StartWithBlankRegexp === next_line || Utils::Regexp[:order_list] === next_line
             child.display = false
             nodes << child
           else
