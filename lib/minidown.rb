@@ -1,8 +1,8 @@
 require "minidown/version"
 require 'minidown/parser'
+require 'minidown/utils'
 require 'minidown/elements'
 require 'minidown/document'
-require 'minidown/utils'
 
 module Minidown
   class << self
