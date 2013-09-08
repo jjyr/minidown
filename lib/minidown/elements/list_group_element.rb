@@ -8,15 +8,16 @@ module Minidown
     def parse
       nodes << self
       while line = unparsed_lines.shift
-        #handle nested ul
-        if line =~ self.class.const_get(:NestRegexp)
+        #handle nested list
+        if (ul = line =~ /\A(\s+)[*\-+]\s+(.+)/) || line =~ /\A(\s+)\d+\.\s+(.+)/ 
+          list_class = ul ? UnorderListElement : OrderListElement
           li, str = $1.size, $2
           if li > @indent_level
-            self.class.new(doc, str, li).parse
+            list_class.new(doc, str, li).parse
             @lists.last.contents << nodes.pop
             next
           elsif li == @indent_level
-            self.class.new(doc, str, li).parse
+            list_class.new(doc, str, li).parse
             child = nodes.pop 
             if LineElement === nodes.last
               @lists.last.p_tag_content = child.lists.first.p_tag_content = true
@@ -32,10 +33,6 @@ module Minidown
         
         doc.parse_line line
         child = nodes.pop
-        # if /\A\s+(.+)/ =~ line
-        #   @lists.last.contents << child
-        #   next
-        # end
         case child
         when self.class
           if LineElement === nodes.last
@@ -71,8 +68,13 @@ module Minidown
         #   unparsed_lines.unshift line
         #   break
         else
-          @put_back << child if child
-          break
+          # if /\A\s+(.+)/ =~ line
+          #   @lists.last.contents << child
+          #   next
+          # else
+            @put_back << child if child
+            break
+          # end
         end
         @blank = (LineElement === child)
       end

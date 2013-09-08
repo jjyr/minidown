@@ -315,7 +315,8 @@ start with
  1. ol
  2. ol
  3. ol'
-        Minidown.parse(str).to_html.should == '<ul><li><p>ul1</p><ol><li>ol</li><li>ol</li><li>ol</li></ol></li><li><p>ul2</p></li><li><p>ul3</p><ol><li> ol</li><li> ol</li><li> ol</li><li> ol</li><li> ol</li></ol></li><li><p>ul4</p></li><li><p>ul5</p><ol><li>ol</li><li>ol</li><li>ol</li></ol></li></ul>'
+        Minidown.parse(str).to_html.should == '<ul><li><p>ul1<br><ol><li>ol</li><li>ol</li><li>ol</li></ol></p></li><li><p>ul2</p></li><li><p>ul3<br><ol><li>ol</li><li>ol</li><li>ol</li><li>ol</li><li>ol</li></ol></p></li><li><p>ul4</p></li><li>ul5
+<ol><li>ol</li><li>ol</li><li>ol</li></ol></li></ul>'
       end
     end
   end
