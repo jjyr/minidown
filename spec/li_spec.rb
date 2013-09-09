@@ -74,7 +74,7 @@ HERE
 *  here a line
  noindent
 HERE
-        Minidown.parse(str).to_html.should == "<ul><li>here a line\n noindent</li></ul>"
+        Minidown.parse(str).to_html.should == "<ul><li><p>here a line</p>\n<p>noindent</p></li></ul>"
       end
 
       it 'can work with block' do
@@ -84,7 +84,7 @@ HERE
     > This is a blockquote
     > inside a list item.
 HERE
-        Minidown.parse(str).to_html.should == "<ul><li><p>A list item with a blockquote:</p>\n<blockquote><p>This is a blockquote</p><p>inside a list item.</p></blockquote></li></ul>"
+        Minidown.parse(str).to_html.should == "<ul><li>A list item with a blockquote:\n<blockquote><p>This is a blockquote</p><p>inside a list item.</p></blockquote></li></ul>"
       end
 
       it 'can not work with block without indent' do
@@ -203,7 +203,7 @@ HERE
 1.  here a line
  noindent
 HERE
-        Minidown.parse(str).to_html.should == "<ol><li>here a line\n noindent</li></ol>"
+        Minidown.parse(str).to_html.should == "<ol><li><p>here a line</p>\n<p>noindent</p></li></ol>"
       end
 
       it 'can work with block' do
@@ -213,7 +213,7 @@ HERE
     > This is a blockquote
     > inside a list item.
 HERE
-        Minidown.parse(str).to_html.should == "<ol><li><p>A list item with a blockquote:</p>\n<blockquote><p>This is a blockquote</p><p>inside a list item.</p></blockquote></li></ol>"
+        Minidown.parse(str).to_html.should == "<ol><li>A list item with a blockquote:\n<blockquote><p>This is a blockquote</p><p>inside a list item.</p></blockquote></li></ol>"
       end
 
       it 'can not work with block without indent' do
