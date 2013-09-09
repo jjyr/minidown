@@ -1,13 +1,14 @@
 module Minidown
   class ListGroupElement < Element
     IndentRegexp = /\A\s{4,}(.+)/
-    StartWithBlankRegexp = /\A\s+/
+    StartWithBlankRegexp = /\A\s+(.+)/
     
     attr_accessor :lists, :indent_level
     
     def parse
       nodes << self
       while line = unparsed_lines.shift
+        #binding.pry
         #handle nested list
         if (line =~ UnorderListElement::NestRegexp && list_class = UnorderListElement) || (line =~ OrderListElement::NestRegexp && list_class = OrderListElement) 
           li, str = $1.size, $2
@@ -17,18 +18,28 @@ module Minidown
             next
           elsif li == @indent_level
             list_class.new(doc, str, li).parse
-            child = nodes.pop 
+            child = nodes.pop
             if LineElement === nodes.last
               @lists.last.p_tag_content = child.lists.first.p_tag_content = true
             end
-            nodes.push *child.children
-            @lists.push *child.lists
+            if child.is_a?(ListGroupElement)
+              nodes.push *child.children
+              @lists.push *child.lists
+            else
+              @lists.last.contents << child
+            end
             next
           else
             unparsed_lines.unshift line
             break
           end
         end
+                
+        # if StartWithBlankRegexp === line
+        #   doc.parse_line $1
+        #   @lists.last.contents << nodes.pop
+        #   next
+        # end
         
         doc.parse_line line
         child = nodes.pop
@@ -42,10 +53,17 @@ module Minidown
           break
         when ParagraphElement
           contents = @lists.last.contents
-          if line =~ IndentRegexp
+          if line =~ StartWithBlankRegexp
             doc.parse_line $1
             node = nodes.pop
-            contents.push(contents.pop.paragraph) if node && TextElement === contents.last
+            if TextElement === node || ParagraphElement === node
+            if TextElement === contents.last
+              contents.push(contents.pop.paragraph)
+            end
+              node = node.paragraph if TextElement ===  node
+            
+            end
+            
           else
             if @blank
               unparsed_lines.unshift line

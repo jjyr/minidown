@@ -334,7 +334,7 @@ start with
 >- line
 1. ######title 5
 >- line'
-        Minidown.parse(str).should == ''
+        Minidown.parse(str).to_html.should == ''
       end
     end
   end
