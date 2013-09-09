@@ -8,7 +8,6 @@ module Minidown
     def parse
       nodes << self
       while line = unparsed_lines.shift
-        #binding.pry
         #handle nested list
         if (line =~ UnorderListElement::NestRegexp && list_class = UnorderListElement) || (line =~ OrderListElement::NestRegexp && list_class = OrderListElement) 
           li, str = $1.size, $2
@@ -34,12 +33,6 @@ module Minidown
             break
           end
         end
-                
-        # if StartWithBlankRegexp === line
-        #   doc.parse_line $1
-        #   @lists.last.contents << nodes.pop
-        #   next
-        # end
         
         doc.parse_line line
         child = nodes.pop
@@ -57,13 +50,11 @@ module Minidown
             doc.parse_line $1
             node = nodes.pop
             if TextElement === node || ParagraphElement === node
-            if TextElement === contents.last
-              contents.push(contents.pop.paragraph)
-            end
+              if TextElement === contents.last
+                contents.push(contents.pop.paragraph)
+              end
               node = node.paragraph if TextElement ===  node
-            
             end
-            
           else
             if @blank
               unparsed_lines.unshift line
