@@ -318,6 +318,24 @@ start with
         Minidown.parse(str).to_html.should == '<ul><li><p>ul1<br><ol><li>ol</li><li>ol</li><li>ol</li></ol></p></li><li><p>ul2</p></li><li><p>ul3<br><ol><li>ol</li><li>ol</li><li>ol</li><li>ol</li><li>ol</li></ol></p></li><li><p>ul4</p></li><li>ul5
 <ol><li>ol</li><li>ol</li><li>ol</li></ol></li></ul>'
       end
+
+      it 'nest with block' do
+        str = '1. ######title
+  >- block with list
+ - list within block
+ - list within block
+1. ######title 2
+  >- list within block
+  >- list within block
+1. ######title 3
+  >- line
+  >- line
+1. ######title 4
+>- line
+1. ######title 5
+>- line'
+        Minidown.parse(str).should == ''
+      end
     end
   end
 end
