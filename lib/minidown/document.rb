@@ -81,12 +81,14 @@ module Minidown
         break_if_list line do
           dividing_line line
         end
-      when (pre_blank? || UnorderListElement === nodes.last) && regexp[:unorder_list] =~ line
+      when regexp[:unorder_list] =~ line
         # * + -
-        inblock{ul $1}
-      when (pre_blank? || OrderListElement === nodes.last) && regexp[:order_list] =~ line
+        indent, str = $1.size, $2
+        inblock{ul str, indent}
+      when regexp[:order_list] =~ line
         # 1. order
-        inblock{ol $1}
+        indent, str = $1.size, $2
+        inblock{ol str, indent}
       when regexp[:code_block] =~ line
         # ```
         code_block $1
