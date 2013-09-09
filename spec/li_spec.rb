@@ -47,10 +47,10 @@ newline'
         Minidown.parse(str).to_html.should == "<ul><li><p>li1<br>newline</p></li><li><p>li2<br>newline</p></li></ul>"
       end
 
-      it 'shoud not parse' do
+      it 'should parse' do
         str = 'line
 * li2'
-        Minidown.parse(str).to_html.should == "<p>line<br>* li2</p>"
+        Minidown.parse(str).to_html.should == "<p>line</p><ul><li>li2</li></ul>"
       end
 
       it 'two ul' do
@@ -176,10 +176,10 @@ newline'
         Minidown.parse(str).to_html.should == '<ol><li><p>li1<br>newline</p></li><li><p>li2<br>newline</p></li></ol>'
       end
 
-      it 'shoud not parse' do
+      it 'should not parse' do
         str = 'line
 1. li2'
-        Minidown.parse(str).to_html.should == "<p>line<br>1. li2</p>"
+        Minidown.parse(str).to_html.should == "<p>line</p><ol><li>li2</li></ol>"
       end
       
       it 'two line' do
@@ -319,22 +319,11 @@ start with
 <ol><li>ol</li><li>ol</li><li>ol</li></ol></li></ul>'
       end
 
-      it 'nest with block' do
-        str = '1. ######title
-  >- block with list
+      it 'list within block' do
+        str = '> block with list
  - list within block
- - list within block
-1. ######title 2
-  >- list within block
-  >- list within block
-1. ######title 3
-  >- line
-  >- line
-1. ######title 4
->- line
-1. ######title 5
->- line'
-        Minidown.parse(str).to_html.should == ''
+ - list within block'
+        Minidown.parse(str).to_html.should == '<blockquote><p>block with list</p><ul><li>list within block</li><li>list within block</li></ul></blockquote>'
       end
     end
   end
