@@ -17,7 +17,7 @@ module Minidown
           child.extra = !!block
           nodes << child
         else
-          nodes << child
+          nodes << child if child
         end
       end
       children_range = (nodes.index(self) + 1)..-1
