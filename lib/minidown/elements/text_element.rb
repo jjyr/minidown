@@ -23,12 +23,13 @@ module Minidown
       inline_code: /(?<!\\)(`+)\s*(.+?)\s*(?<!\\)\1/
     }
 
-    attr_accessor :escape, :convert
+    attr_accessor :escape, :convert, :sanitize
     
     def initialize *_
       super
       @escape = true
       @escape_content = true
+      @sanitize = false
       @convert = true
     end
     
@@ -41,6 +42,7 @@ module Minidown
       str = convert_str(str) if convert
       escape_str! str
       escape_content! str
+      escape_html str if sanitize
       str
     end
 

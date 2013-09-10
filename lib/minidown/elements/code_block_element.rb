@@ -10,6 +10,8 @@ module Minidown
         else
           child = TextElement.new(doc, line)
           child.escape = false
+          child.sanitize = true
+          child.convert = false
           children << child
         end
       end
