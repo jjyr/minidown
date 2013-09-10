@@ -239,6 +239,11 @@ A backtick-delimited string in a code span: `` `foo` ``'
           str = "Please don't use any `<blink>` tags."
           Minidown.parse(str).to_html.should == "<p>Please don't use any <code>&lt;blink&gt;</code> tags.</p>"
         end
+
+        it 'should not auto convert' do
+          str = "`jjyruby@gmail.com`"
+          Minidown.parse(str).to_html.should == '<p><code>jjyruby@gmail.com</code></p>'
+        end
       end
 
       context 'image syntax' do

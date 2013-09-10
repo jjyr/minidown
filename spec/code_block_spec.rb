@@ -58,6 +58,20 @@ HERE
 HERE
         Minidown.parse(str).to_html.should == "<pre><code>\\+\n\\.\n\\-\n\\*\n&lt;&gt;</code></pre>"
       end
+
+      it 'should escape html tag' do
+        str ='```
+<a>hello</a>
+```'
+        Minidown.parse(str).to_html.should == "<pre><code>&lt;a&gt;hello&lt;/a&gt;</code></pre>"
+      end
+
+      it 'should not auto convert' do
+        str = '```
+jjyruby@gmail.com
+```'
+        Minidown.parse(str).to_html.should == '<pre><code>jjyruby@gmail.com</code></pre>'
+      end
     end
   end
 end
