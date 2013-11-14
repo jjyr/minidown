@@ -90,7 +90,7 @@ module Minidown
         indent, str = $1.size, $2
         inblock{ol str, indent}
       when regexp[:code_block] =~ line
-        # ```
+        # ``` or ~~~
         code_block $1
       when !@inblock && pre_blank? && regexp[:indent_code] =~ line
         #    code

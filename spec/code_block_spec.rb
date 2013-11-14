@@ -14,6 +14,30 @@ HERE
         Minidown.parse(str).to_html.should == "<pre><code>should in code block\n\nin block</code></pre>"
       end
       
+      it 'should allow tildes as well as backquotes' do
+        str =<<HERE
+~~~
+should in code block
+
+in block
+~~~
+HERE
+        Minidown.parse(str).to_html.should == "<pre><code>should in code block\n\nin block</code></pre>"
+      end
+
+
+      it 'should allow arbitrary number of tildes' do
+        str =<<HERE
+~~~~~~~~~~~
+should in code block
+
+in block
+~~~~~~~~~~~
+HERE
+        Minidown.parse(str).to_html.should == "<pre><code>should in code block\n\nin block</code></pre>"
+      end
+        
+      
       it 'should ignore space' do
         str =<<HERE
   ```
@@ -31,6 +55,17 @@ should in code block
 
 in block
 ```
+HERE
+        Minidown.parse(str).to_html.should == "<pre lang=\"ruby\"><code>should in code block\n\nin block</code></pre>"
+      end
+
+      it 'should have lang attribute with tildes' do
+        str =<<HERE
+~~~  ruby
+should in code block
+
+in block
+~~~
 HERE
         Minidown.parse(str).to_html.should == "<pre lang=\"ruby\"><code>should in code block\n\nin block</code></pre>"
       end
