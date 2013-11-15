@@ -8,7 +8,7 @@ module Minidown
       start_with_quote: /\A\>\s*(.+)/,
       unorder_list: /\A(\s*)[*\-+]\s+(.+)/,
       order_list: /\A(\s*)\d+\.\s+(.+)/,
-      code_block: /\A\s*`{3}\s*(\S*)/,
+      code_block: /\A\s*[`~]{3,}\s*(\S*)/,
       dividing_line: /\A(\s*[*-]\s*){3,}\z/,
       indent_code: /\A\s{4}(.+)/
     }
