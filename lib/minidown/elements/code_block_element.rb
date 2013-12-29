@@ -17,10 +17,18 @@ module Minidown
       end
     end
 
+    def lang
+      content
+    end
+
+    def children_html
+      children.map(&:to_html).join("\n")
+    end
+
     def to_html
-      attr = content.empty? ? nil : {class: content}
+      attr = lang.empty? ? nil : {class: lang}
       build_tag 'pre' do |pre|
-        pre << build_tag('code', attr){ |code| code << children.map(&:to_html).join("\n") }
+        pre << build_tag('code', attr){ |code| code << children_html }
       end
     end
   end
