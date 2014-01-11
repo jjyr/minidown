@@ -157,7 +157,7 @@ puts "We love ruby!"
 not specific language
 ```'
         handler = ->(lang, content){ "#{content}, so lang is #{lang.inspect}" }
-        Minidown.render(str, code_block_handler: handler).should == 'not specific language, so lang is ""'
+        Minidown.render(str, code_block_handler: handler).should == 'not specific language, so lang is nil'
       end
     end
   end
