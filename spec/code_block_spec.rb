@@ -11,7 +11,7 @@ should in code block
 in block
 ```
 HERE
-        Minidown.parse(str).to_html.should == "<pre><code>should in code block\n\nin block</code></pre>"
+        Minidown.render(str).should == "<pre><code>should in code block\n\nin block</code></pre>"
       end
       
       it 'should allow tildes as well as backquotes' do
@@ -22,7 +22,7 @@ should in code block
 in block
 ~~~
 HERE
-        Minidown.parse(str).to_html.should == "<pre><code>should in code block\n\nin block</code></pre>"
+        Minidown.render(str).should == "<pre><code>should in code block\n\nin block</code></pre>"
       end
 
       it 'should allow arbitrary number of `' do
@@ -33,7 +33,7 @@ should in code block
 in block
 ````````````
 HERE
-        Minidown.parse(str).to_html.should == "<pre><code>should in code block\n\nin block</code></pre>"
+        Minidown.render(str).should == "<pre><code>should in code block\n\nin block</code></pre>"
       end
 
       it 'should allow arbitrary number of tildes' do
@@ -44,7 +44,7 @@ should in code block
 in block
 ~~~~~~~~~~~
 HERE
-        Minidown.parse(str).to_html.should == "<pre><code>should in code block\n\nin block</code></pre>"
+        Minidown.render(str).should == "<pre><code>should in code block\n\nin block</code></pre>"
       end
         
       
@@ -55,7 +55,7 @@ should in code block
 in block
     ```
 HERE
-        Minidown.parse(str).to_html.should == "<pre><code>should in code block\nin block</code></pre>"
+        Minidown.render(str).should == "<pre><code>should in code block\nin block</code></pre>"
       end
 
       it 'should have lang attribute' do
@@ -66,7 +66,7 @@ should in code block
 in block
 ```
 HERE
-        Minidown.parse(str).to_html.should == "<pre lang=\"ruby\"><code>should in code block\n\nin block</code></pre>"
+        Minidown.render(str).should == "<pre lang=\"ruby\"><code>should in code block\n\nin block</code></pre>"
       end
 
       it 'should have lang attribute with tildes' do
@@ -77,7 +77,7 @@ should in code block
 in block
 ~~~
 HERE
-        Minidown.parse(str).to_html.should == "<pre lang=\"ruby\"><code>should in code block\n\nin block</code></pre>"
+        Minidown.render(str).should == "<pre lang=\"ruby\"><code>should in code block\n\nin block</code></pre>"
       end
 
       it 'should allow escape' do
@@ -88,7 +88,7 @@ should in code block
 in block
 \\```
 HERE
-        Minidown.parse(str).to_html.should == "<p>```<br>should in code block</p><p>in block<br>```</p>"
+        Minidown.render(str).should == "<p>```<br>should in code block</p><p>in block<br>```</p>"
         str =<<HERE
 \\~~~
 should in code block
@@ -96,7 +96,7 @@ should in code block
 in block
 \\~~~
 HERE
-        Minidown.parse(str).to_html.should == "<p>~~~<br>should in code block</p><p>in block<br>~~~</p>"
+        Minidown.render(str).should == "<p>~~~<br>should in code block</p><p>in block<br>~~~</p>"
       end
 
       it 'should not escape content' do
@@ -109,7 +109,7 @@ HERE
 <>
 ```
 HERE
-        Minidown.parse(str).to_html.should == "<pre><code>\\+\n\\.\n\\-\n\\*\n&lt;&gt;</code></pre>"
+        Minidown.render(str).should == "<pre><code>\\+\n\\.\n\\-\n\\*\n&lt;&gt;</code></pre>"
         str =<<HERE
 ~~~
 \\+
@@ -119,29 +119,29 @@ HERE
 <>
 ~~~
 HERE
-        Minidown.parse(str).to_html.should == "<pre><code>\\+\n\\.\n\\-\n\\*\n&lt;&gt;</code></pre>"
+        Minidown.render(str).should == "<pre><code>\\+\n\\.\n\\-\n\\*\n&lt;&gt;</code></pre>"
       end
 
       it 'should escape html tag' do
         str ='```
 <a>hello</a>
 ```'
-        Minidown.parse(str).to_html.should == "<pre><code>&lt;a&gt;hello&lt;/a&gt;</code></pre>"
+        Minidown.render(str).should == "<pre><code>&lt;a&gt;hello&lt;/a&gt;</code></pre>"
         str ='~~~
 <a>hello</a>
 ~~~'
-        Minidown.parse(str).to_html.should == "<pre><code>&lt;a&gt;hello&lt;/a&gt;</code></pre>"
+        Minidown.render(str).should == "<pre><code>&lt;a&gt;hello&lt;/a&gt;</code></pre>"
       end
 
       it 'should not auto convert' do
         str = '```
 jjyruby@gmail.com
 ```'
-        Minidown.parse(str).to_html.should == '<pre><code>jjyruby@gmail.com</code></pre>'
+        Minidown.render(str).should == '<pre><code>jjyruby@gmail.com</code></pre>'
         str = '~~~
 jjyruby@gmail.com
 ~~~'
-        Minidown.parse(str).to_html.should == '<pre><code>jjyruby@gmail.com</code></pre>'
+        Minidown.render(str).should == '<pre><code>jjyruby@gmail.com</code></pre>'
       end
     end
   end

@@ -12,7 +12,7 @@ without syntax highlighting:
       if not bar:
         return true
 HERE
-        Minidown.parse(str).to_html.should == "<p>Here is a Python code example<br>without syntax highlighting:</p><pre><code>def foo:\n  if not bar:\n    return true</code></pre>"
+        Minidown.render(str).should == "<p>Here is a Python code example<br>without syntax highlighting:</p><pre><code>def foo:\n  if not bar:\n    return true</code></pre>"
       end
     end
   end

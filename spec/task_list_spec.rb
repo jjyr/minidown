@@ -12,7 +12,7 @@ describe Minidown do
 - [ ] incomplete
 - [x] completed
 HERE
-        Minidown.parse(str).to_html.should == '<ul class="task-list"><li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> a task list item</li><li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> list syntax required</li><li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""><p> normal <strong>formatting</strong>,</p>
+        Minidown.render(str).should == '<ul class="task-list"><li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> a task list item</li><li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> list syntax required</li><li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""><p> normal <strong>formatting</strong>,</p>
 <p>@mentions, #1234 refs</p></li><li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> incomplete</li><li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" checked="" disabled=""> completed</li></ul>'
       end
     end

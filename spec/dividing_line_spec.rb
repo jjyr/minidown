@@ -5,32 +5,32 @@ describe Minidown do
     describe 'dividing line' do
       it 'parsed correct' do
         str = '***'
-        Minidown.parse(str).to_html.should == '<hr>'
+        Minidown.render(str).should == '<hr>'
         str = '---'
-        Minidown.parse(str).to_html.should == '<hr>'
+        Minidown.render(str).should == '<hr>'
         str = ' *** '
-        Minidown.parse(str).to_html.should == '<hr>'
+        Minidown.render(str).should == '<hr>'
         str = ' * * * '
-        Minidown.parse(str).to_html.should == '<hr>'
+        Minidown.render(str).should == '<hr>'
         str = ' -- - '
-        Minidown.parse(str).to_html.should == '<hr>'
+        Minidown.render(str).should == '<hr>'
         str = '----'
-        Minidown.parse(str).to_html.should == '<hr>'
+        Minidown.render(str).should == '<hr>'
       end
 
       it 'should not parse if any other character' do
         str = 'f---'
-        Minidown.parse(str).to_html.should == '<p>f---</p>'
+        Minidown.render(str).should == '<p>f---</p>'
 
         str = '* * *z'
-        Minidown.parse(str).to_html.should == '<ul><li><em> </em>z</li></ul>'
+        Minidown.render(str).should == '<ul><li><em> </em>z</li></ul>'
       end
 
       it 'should allow escape' do
         str = "\\----"
-        Minidown.parse(str).to_html.should == '<p>----</p>'
+        Minidown.render(str).should == '<p>----</p>'
         str = "\\* * *"
-        Minidown.parse(str).to_html.should == '<p>* <em> </em></p>'
+        Minidown.render(str).should == '<p>* <em> </em></p>'
       end
     end
   end

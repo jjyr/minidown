@@ -12,7 +12,7 @@ new paragraph
 same paragraph
 
 new p'
-        Minidown.parse(str).to_html.should == '<p>line1<br>line2</p><p>new paragraph<br>    some space<br>same paragraph</p><p>new p</p>'
+        Minidown.render(str).should == '<p>line1<br>line2</p><p>new paragraph<br>    some space<br>same paragraph</p><p>new p</p>'
       end
     end
   end
