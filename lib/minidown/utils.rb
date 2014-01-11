@@ -11,6 +11,6 @@ module Minidown
       code_block: /\A\s*[`~]{3,}\s*(\S*)/,
       dividing_line: /\A(\s*[*-]\s*){3,}\z/,
       indent_code: /\A\s{4}(.+)/
-    }
+    }.freeze
   end
 end
