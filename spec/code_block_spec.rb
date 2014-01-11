@@ -143,12 +143,22 @@ jjyruby@gmail.com
       Minidown.render(str).should == '<pre><code>jjyruby@gmail.com</code></pre>'
     end
 
-    it "should work with code block handler" do
-      str = '``` ruby
+    describe "work with code block handler" do
+      it "work with handler" do
+        str = '``` ruby
 puts "We love ruby!"
 ```'
-      handler = ->(lang, content){"`#{content}` is write in #{lang}"}
-      Minidown.render(str, code_block_handler: handler).should == '`puts "We love ruby!"` is write in ruby'
+        handler = ->(lang, content){"`#{content}` is write in #{lang}"}
+        Minidown.render(str, code_block_handler: handler).should == '`puts "We love ruby!"` is write in ruby'
+      end
+
+      it "lang should return empty if not specific language" do
+        str = '```
+not specific language
+```'
+        handler = ->(lang, content){ "#{content}, so lang is #{lang.inspect}" }
+        Minidown.render(str, code_block_handler: handler).should == 'not specific language, so lang is ""'
+      end
     end
   end
 end
