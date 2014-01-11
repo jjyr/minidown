@@ -1,5 +1,10 @@
 module Minidown
   class CodeBlockElement < Element
+
+    def initialize *_
+      super
+      @code_block_handler = doc.options[:code_block_handler]
+    end
     
     def parse
       nodes << self
@@ -26,6 +31,7 @@ module Minidown
     end
 
     def to_html
+      return @code_block_handler.call lang, children_html if @code_block_handler
       attr = lang.empty? ? nil : {class: lang}
       build_tag 'pre' do |pre|
         pre << build_tag('code', attr){ |code| code << children_html }

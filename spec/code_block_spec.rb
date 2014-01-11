@@ -142,8 +142,13 @@ jjyruby@gmail.com
 ~~~'
       Minidown.render(str).should == '<pre><code>jjyruby@gmail.com</code></pre>'
     end
-  end
 
-  describe "code block handler should work" do
+    it "should work with code block handler" do
+      str = '``` ruby
+puts "We love ruby!"
+```'
+      handler = ->(lang, content){"`#{content}` is write in #{lang}"}
+      Minidown.render(str, code_block_handler: handler).should == '`puts "We love ruby!"` is write in ruby'
+    end
   end
 end
