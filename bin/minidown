@@ -20,7 +20,7 @@ end.parse!
 
 file = ARGV.first
 if file
-  puts Minidown.parse(open(file).read).to_html
+  puts Minidown.render(open(file).read)
 else
   $stderr.puts Usage
   exit 1
