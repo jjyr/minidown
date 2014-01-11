@@ -3,17 +3,17 @@
 require 'minidown'
 require 'optparse'
 
-Usage = "Usage: minidown FILE"
+Usage = "Usage: minidown [FILE]"
 OptionParser.new do |opts|
   opts.banner = Usage
 
   opts.on_tail "-v", "--version", "Show current version" do |v|
-    STDOUT.puts Minidown::VERSION
+    puts Minidown::VERSION
     exit
   end
 
   opts.on_tail "-h", "--help", "Show this message" do |v|
-    STDOUT.puts opts
+    puts opts
     exit
   end
 end.parse!
@@ -22,6 +22,7 @@ file = ARGV.first
 if file
   puts Minidown.render(open(file).read)
 else
+  $stderr.puts "Missing argument FILE"
   $stderr.puts Usage
   exit 1
 end
