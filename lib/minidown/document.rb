@@ -1,6 +1,6 @@
 module Minidown
   class Document
-    attr_accessor :lines, :nodes, :links_ref
+    attr_accessor :lines, :nodes, :links_ref, :options
 
     RefRegexp = {
       link_ref_define: /\A\s*\[(.+)\]\:\s+(\S+)\s*(.*)/,
@@ -11,7 +11,8 @@ module Minidown
       h1h6: /\Ah[1-6]\z/
     }
     
-    def initialize lines
+    def initialize lines, options = {}
+      @options = options
       @lines = lines
       @nodes = []
       @inblock = false

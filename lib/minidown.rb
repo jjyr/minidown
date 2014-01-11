@@ -6,9 +6,8 @@ require 'minidown/document'
 
 module Minidown
   class << self
-    # return Minidown::Document
-    def parse str
-      Parser.new(str).result
+    def render str, options = {}
+      Parser.new(options).render str
     end
   end
 end

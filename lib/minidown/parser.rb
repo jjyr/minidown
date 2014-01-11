@@ -1,23 +1,19 @@
 module Minidown
   class Parser
-    def initialize str
-      @str = str
+    def initialize options = {}
+      @options = options.freeze
     end
 
-    # return Minidown::Document
-    def result
-      @result ||= parse
+    def render str
+      parse(str).to_html
     end
 
     protected
-    def parse
-      doc = Document.new lines
+    def parse str
+      lines = str.split Utils::Regexp[:lines]
+      doc = Document.new lines, @options
       doc.parse
       doc
-    end
-
-    def lines
-      @str.split Utils::Regexp[:lines]
     end
   end
 end
