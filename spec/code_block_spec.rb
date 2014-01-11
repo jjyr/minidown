@@ -65,7 +65,7 @@ should in code block
 in block
 ```
 HERE
-      Minidown.render(str).should == "<pre lang=\"ruby\"><code>should in code block\n\nin block</code></pre>"
+      Minidown.render(str).should == "<pre><code class=\"ruby\">should in code block\n\nin block</code></pre>"
     end
 
     it 'should have lang attribute with tildes' do
@@ -76,7 +76,7 @@ should in code block
 in block
 ~~~
 HERE
-      Minidown.render(str).should == "<pre lang=\"ruby\"><code>should in code block\n\nin block</code></pre>"
+      Minidown.render(str).should == "<pre><code class=\"ruby\">should in code block\n\nin block</code></pre>"
     end
 
     it 'should allow escape' do
