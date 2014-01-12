@@ -15,7 +15,7 @@ module Minidown
         else
           child = TextElement.new(doc, line)
           child.escape = false
-          child.sanitize = true
+          child.sanitize = @code_block_handler.nil?
           child.convert = false
           children << child
         end
@@ -31,10 +31,13 @@ module Minidown
     end
 
     def to_html
-      return @code_block_handler.call lang, children_html if @code_block_handler
-      attr = lang ? {class: lang} : nil
-      build_tag 'pre' do |pre|
-        pre << build_tag('code', attr){ |code| code << children_html }
+      if @code_block_handler
+        @code_block_handler.call(lang, children_html).to_s
+      else
+        attr = lang ? {class: lang} : nil
+        build_tag 'pre' do |pre|
+          pre << build_tag('code', attr){ |code| code << children_html }
+        end
       end
     end
   end

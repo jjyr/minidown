@@ -21,7 +21,7 @@ module Minidown
       auto_email: /(?<!\S)[A-Za-z0-9]+@[A-Za-z0-9]+\.[A-Za-z0-9]+(?!\S)/,
       auto_link: /(?<!\S)\w+?\:\/\/.+?(?!\S)/,
       inline_code: /(?<!\\)(`+)\s*(.+?)\s*(?<!\\)\1/
-    }
+    }.freeze
 
     attr_accessor :escape, :convert, :sanitize
     
@@ -51,9 +51,7 @@ module Minidown
     end
 
     def escape_html str
-      str.gsub! "<", "&lt;"
-      str.gsub! ">", "&gt;"
-      str
+      str.replace Utils.escape_html(str)
     end
 
     def escape_content! str

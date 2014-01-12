@@ -159,6 +159,14 @@ not specific language
         handler = ->(lang, content){ "#{content}, so lang is #{lang.inspect}" }
         Minidown.render(str, code_block_handler: handler).should == 'not specific language, so lang is nil'
       end
+
+      it "handler should pass raw content" do
+        str = '```
+<script>
+```'
+        handler = ->(lang, content){ content.gsub("<", "{").gsub(">", "}") }
+        Minidown.render(str, code_block_handler: handler).should == '{script}'
+      end
     end
   end
 end

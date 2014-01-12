@@ -12,5 +12,14 @@ module Minidown
       dividing_line: /\A(\s*[*-]\s*){3,}\z/,
       indent_code: /\A\s{4}(.+)/
     }.freeze
+
+    class << self
+      def escape_html str
+        sanitized_str = str.dup
+        sanitized_str.gsub! "<", "&lt;"
+        sanitized_str.gsub! ">", "&gt;"
+        sanitized_str
+      end
+    end
   end
 end
