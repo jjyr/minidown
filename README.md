@@ -22,16 +22,30 @@ Or install it yourself as:
 
     $ gem install minidown
 
-## Usage
+## Basic usage
 
 ```ruby
 require 'minidown'
 
-Minidown.parse('*hello*').to_html
+Minidown.render('*hello*')
 #=> "<p><em>hello</em></p>"
 ```
 
-or command line
+## Custom your own handler
+
+```ruby
+highlight_with_pygments = ->(lang, content) {
+  Pygments.highlight(content, :lexer => lang)
+}
+
+Minidown.render source, code_block_handler: highlight_with_pygments
+
+# if you don't like pass options every time
+parser_with_highlight = Minidown::Parser.new code_block_handler: highlight_with_pygments
+parser_with_highlight.render source
+```
+
+## Command line
 
 ```
 wget https://raw.github.com/mojombo/github-flavored-markdown/gh-pages/_site/sample_content.md
