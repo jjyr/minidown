@@ -169,11 +169,13 @@ not specific language
       end
 
       it "should not escape <>" do
-        str = '```
-<script>
-```'
+        test_cases = %w{<script> <> < >}
         handler = ->(lang, content){ content }
-        Minidown.render(str, code_block_handler: handler).should == '<script>'
+        parser = Minidown::Parser.new(code_block_handler: handler)
+        test_cases.each do |case_s|
+          str = "```\n#{case_s}\n```"
+          parser.render(str).should == case_s
+        end
       end
     end
   end
