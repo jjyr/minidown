@@ -167,6 +167,14 @@ not specific language
         handler = ->(lang, content){ content.gsub("<", "{").gsub(">", "}") }
         Minidown.render(str, code_block_handler: handler).should == '{script}'
       end
+
+      it "should not escape <>" do
+        str = '```
+<script>
+```'
+        handler = ->(lang, content){ content }
+        Minidown.render(str, code_block_handler: handler).should == '<script>'
+      end
     end
   end
 end
