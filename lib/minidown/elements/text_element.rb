@@ -28,7 +28,6 @@ module Minidown
     def initialize *_
       super
       @escape = true
-      @escape_content = true
       @sanitize = false
       @convert = true
     end
@@ -55,7 +54,7 @@ module Minidown
     end
 
     def escape_content! str
-      return str unless @escape_content
+      return str unless @escape
       escape_html str
       
       str.gsub! Regexp[:tag] do
@@ -169,7 +168,6 @@ module Minidown
       end
 
       escape_content! str
-      @escape_content = false
            
       #inline code
       str.gsub! Regexp[:inline_code] do |origin_str|
