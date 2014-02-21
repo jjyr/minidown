@@ -55,7 +55,6 @@ _
 \\\\-
 \\\\.
 \\\\!}
-#$debug = true
         Minidown.render(str).should == %q{<p>\\`
 \\*
 \\_

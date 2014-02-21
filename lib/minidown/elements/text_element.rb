@@ -4,7 +4,7 @@ module Minidown
     EscapeRegexp = /(?<!\\)\\([#{EscapeChars.join '|'}|\\])/
    
     Regexp = {
-      tag: /&lt;(.+?)&gt;/,
+      tag: /(\\*)&lt;(.+?)(\\*)&gt;/,
       quot: /&quot;/,
       link: /(?<!\!)\[(.+?)\]\((.+?)\)/,
       link_title: /((?<=").+?(?="))/,
@@ -39,14 +39,14 @@ module Minidown
     def content
       str = super
       str = convert_str(str) if convert
-      escape_str! str
       escape_content! str
+      escape_str! str
       escape_html str if sanitize
       str
     end
 
     def escape_str! str
-      str.gsub!(EscapeRegexp, '\\1') if escape
+      str.gsub!(EscapeRegexp, '\\1'.freeze) if escape
     end
 
     def escape_html str
@@ -58,11 +58,18 @@ module Minidown
       escape_html str
       
       str.gsub! Regexp[:tag] do
-        tag = $1
+        left, tag, right = $1, $2, $3
         tag.gsub! Regexp[:quot] do
-          '"'
+          '"'.freeze
         end
-        "<#{tag}>"
+
+        left = left.size.odd? ? "#{left[0..-2]}&lt;" : "#{left}<" if left
+        left ||= "<".freeze
+
+        right = right.size.odd? ? "#{right[0..-2]}&gt;" : "#{right}>" if right
+        right ||= ">".freeze
+
+        "#{left}#{tag}#{right}"
       end
       str
     end
@@ -70,14 +77,14 @@ module Minidown
     def convert_str str
       #auto link
       str.gsub! Regexp[:auto_link] do |origin_str|
-        build_tag 'a', href: origin_str do |a|
+        build_tag 'a'.freeze, href: origin_str do |a|
           a << origin_str
         end
       end
       
       #auto email
       str.gsub! Regexp[:auto_email] do |origin_str|
-        build_tag 'a', href: "mailto:#{origin_str}" do |a|
+        build_tag 'a'.freeze, href: "mailto:#{origin_str}" do |a|
           a << origin_str
         end
       end
