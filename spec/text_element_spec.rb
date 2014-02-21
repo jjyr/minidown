@@ -40,6 +40,38 @@ _
 !</p>'.split.join('<br>')
     end
 
+    it 'escape escape symbol' do
+      str = %q{\\\\`
+\\\\*
+\\\\_
+\\\\{
+\\\\}
+\\\\[
+\\\\]
+\\\\(
+\\\\)
+\\\\#
+\\\\+
+\\\\-
+\\\\.
+\\\\!}
+#$debug = true
+        Minidown.render(str).should == %q{<p>\\`
+\\*
+\\_
+\\{
+\\}
+\\[
+\\]
+\\(
+\\)
+\\#
+\\+
+\\-
+\\.
+\\!</p>}.split.join('<br>')
+    end
+
     it 'html tag' do
       str = "<a href=\"http://github.com\">github</a>"
       Minidown.render(str).should == "<p>#{str}</p>"

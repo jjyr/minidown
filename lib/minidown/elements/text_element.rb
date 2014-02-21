@@ -1,7 +1,7 @@
 module Minidown
   class TextElement < Element
     EscapeChars = %w{# &gt; * + \- ` _ { } ( ) . ! \[ \] ~}
-    EscapeRegexp = /\\([#{EscapeChars.join '|'}])|\\(\\)/
+    EscapeRegexp = /(?<!\\)\\([#{EscapeChars.join '|'}|\\])/
    
     Regexp = {
       tag: /&lt;(.+?)&gt;/,
