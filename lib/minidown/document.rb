@@ -10,7 +10,7 @@ module Minidown
     TagRegexp ={
       h1h6: /\Ah[1-6]\z/
     }
-    
+
     def initialize lines, options = {}
       @options = options
       @lines = lines
@@ -21,7 +21,7 @@ module Minidown
 
     def parse
       parse_references
-      
+
       while line = @lines.shift
         parse_line line
       end
@@ -75,7 +75,7 @@ module Minidown
           html_tag nodes.pop, "h#{$1.size}"
         end
       when regexp[:start_with_quote] =~ line
-        # > blockquote        
+        # > blockquote
         inblock{block $1}
       when regexp[:dividing_line] =~ line
         # * * * - - -
@@ -101,7 +101,7 @@ module Minidown
         paragraph line
       end
     end
-    
+
     private
     def pre_blank?
       node = @nodes.last
