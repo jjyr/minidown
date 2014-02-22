@@ -5,11 +5,12 @@ Minidown
 
 Minidown is yet another markdown parser, with:
 
-* light weight
-* no dependencies
-* pure ruby
-* fast
-* follow GFM(GitHub Flavored Markdown)
+* **Complete** [GFM](https://help.github.com/articles/github-flavored-markdown) support.
+
+* Light weight, not other dependencies.
+
+* Fast & easy to use.
+
 
 ## Installation
 
@@ -56,6 +57,12 @@ minidown sample_content.md > result.html
 open result.html
 ```
 looks nice!
+
+## Syntax
+
+Complete **GFM**(GitHub Flavored Markdown) support
+include **Basic markdown**, **Task list**, **Table**, **Code**, **Blockquote** etc..
+[view details](https://help.github.com/articles/github-flavored-markdown)
 
 ## Contributing
 
