@@ -212,7 +212,8 @@ HERE
       end
 
       it 'should work well with text' do
-        Minidown.render("_close_ a window").should == '<p><em>close<em> a window</p>'
+        Minidown.render("a _close_ a window").should == '<p>a <em>close</em> a window</p>'
+        Minidown.render("a *close* a window").should == '<p>a <em>close</em> a window</p>'
       end
 
       it 'can not mass' do
