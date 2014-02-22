@@ -8,21 +8,21 @@ describe Minidown do
     end
 
     it 'escape special symbol' do
-      str = '\\
-\`
-\*
-\_
-\{
-\}
-\[
-\]
-\(
-\)
-\#
-\+
-\-
-\.
-\!'
+      str = '\\\\
+\\`
+\\*
+\\_
+\\{
+\\}
+\\[
+\\]
+\\(
+\\)
+\\#
+\\+
+\\-
+\\.
+\\!'
         Minidown.render(str).should == '<p>\
 `
 *
@@ -120,7 +120,7 @@ I get 10 times more traffic from [Google][] than from
 [Yahoo][] or [MSN][].
 
   [google]: http://google.com/        "Google"
-  [yahoo]:  http://search.yahoo.com/  
+  [yahoo]:  http://search.yahoo.com/
   [msn]:    http://search.msn.com/    "MSN Search"
 HERE
         Minidown.render(str).should == '<p>I get 10 times more traffic from <a href="http://google.com/" title="Google">Google</a> than from<br><a href="http://search.yahoo.com/">Yahoo</a> or <a href="http://search.msn.com/" title="MSN Search">MSN</a>.</p>'
@@ -175,7 +175,7 @@ HERE
 
       it 'should parse email' do
         str = "<jjyruby@gmail.com>"
-        Minidown.render(str).should == "<p><a href=\"mailto:jjyruby@gmail.com\">jjyruby@gmail.com</a></p>"   
+        Minidown.render(str).should == "<p><a href=\"mailto:jjyruby@gmail.com\">jjyruby@gmail.com</a></p>"
       end
     end
 
@@ -187,7 +187,7 @@ HERE
         end
       end
 
-      it 'should allow mutil in oneline' do          
+      it 'should allow mutil in oneline' do
         str = '~~i am del~~ and ~~i am another del~~'
         Minidown.render(str).should == '<p><del>i am del</del> and <del>i am another del</del></p>'
 
@@ -294,7 +294,7 @@ A backtick-delimited string in a code span: `` `foo` ``'
 ![Image 3][img3]
 
 [img1]: url/to/image1  "Image 1"
-[img2]: url/to/image2 
+[img2]: url/to/image2
 [img3]: url/to/image3  "Image 3"
 HERE
         Minidown.render(str).should == "<p><img src=\"url/to/image1\" alt=\"Image 1\" title=\"Image 1\"></img><br><img src=\"url/to/image2\" alt=\"Image 2\"></img><br><img src=\"url/to/image3\" alt=\"Image 3\" title=\"Image 3\"></img></p>"
