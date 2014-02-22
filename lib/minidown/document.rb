@@ -93,10 +93,20 @@ module Minidown
         inblock{ol str, indent}
       when regexp[:code_block] =~ line
         # ``` or ~~~
-        code_block $1
+        inblock{code_block $1}
       when !@within_block && pre_blank? && regexp[:indent_code] =~ line
         #    code
         indent_code $1
+      when regexp[:pipe_symbol] =~ line && regexp[:table] =~ line
+        # column1 | column2 | ...
+        table = TableElement.new self, line, $1
+        raw_column_spec = @lines.shift
+        if table.check_column_spec raw_column_spec
+          inblock{table.parse}
+        else
+          @lines.unshift raw_column_spec if raw_column_spec
+          paragraph line
+        end
       else
         # paragraph
         paragraph line
