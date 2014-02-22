@@ -158,6 +158,14 @@ HERE
         Minidown.render(str).should == "<p><a href=\"mailto:jjyruby@gmail.com\">jjyruby@gmail.com</a> <a href=\"mailto:jjyruby@gmail.com\">jjyruby@gmail.com</a></p>"
       end
 
+      it 'should play with normal text' do
+        str = "Hi, jjyruby@gmail.com is my email."
+        Minidown.render(str).should == "<p>Hi, <a href=\"mailto:jjyruby@gmail.com\">jjyruby@gmail.com</a> is my email.</p>"
+
+        str = "Hi, <jjyruby@gmail.com> is my email."
+        Minidown.render(str).should == "<p>Hi, <a href=\"mailto:jjyruby@gmail.com\">jjyruby@gmail.com</a> is my email.</p>"
+      end
+
       it 'should not parse email in tag' do
         str = "<a href=\"mailto:jjyruby@gmail.com\">jjyr</a>"
         Minidown.render(str).should == "<p>#{str}</p>"
