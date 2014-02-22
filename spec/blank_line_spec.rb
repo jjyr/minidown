@@ -8,13 +8,13 @@ describe Minidown do
       end
     end
 
-    it 'should parse <br>' do
+    it 'should be ignore when blank is the first line' do
       str = "\na"
-      Minidown.render(str).should == "<br><p>a</p>"
+      Minidown.render(str).should == "<p>a</p>"
       str = "\n\n h"
-      Minidown.render(str).should == "<br><p> h</p>"
+      Minidown.render(str).should == "<p> h</p>"
       ["\n \n", "\n \n\n\n"].each do |str|
-        Minidown.render(str).should == "<br>#{str.split(Minidown::Utils::Regexp[:lines]).last}".strip
+        Minidown.render(str).should == "#{str.split(Minidown::Utils::Regexp[:lines]).last}".strip
       end
     end
   end

@@ -93,7 +93,7 @@ HERE
 > This is a blockquote
     > inside a list item.
 HERE
-      Minidown.render(str).should == "<ul><li>A list item with a blockquote:</li></ul><br><blockquote><p>This is a blockquote</p><p>inside a list item.</p></blockquote>"
+      Minidown.render(str).should == "<ul><li>A list item with a blockquote:</li></ul><blockquote><p>This is a blockquote</p><p>inside a list item.</p></blockquote>"
     end
 
     it 'newline' do
@@ -102,7 +102,7 @@ HERE
 
 Newline
 HERE
-      Minidown.render(str).should == "<ul><li>A list</li></ul><br><p>Newline</p>"
+      Minidown.render(str).should == "<ul><li>A list</li></ul><p>Newline</p>"
     end
 
     it 'should parse correct' do
@@ -222,7 +222,7 @@ HERE
 > This is a blockquote
     > inside a list item.
 HERE
-      Minidown.render(str).should == "<ol><li>A list item with a blockquote:</li></ol><br><blockquote><p>This is a blockquote</p><p>inside a list item.</p></blockquote>"
+      Minidown.render(str).should == "<ol><li>A list item with a blockquote:</li></ol><blockquote><p>This is a blockquote</p><p>inside a list item.</p></blockquote>"
     end
 
     it 'newline' do
@@ -231,7 +231,7 @@ HERE
 
 Newline
 HERE
-      Minidown.render(str).should == "<ol><li>A list</li></ol><br><p>Newline</p>"
+      Minidown.render(str).should == "<ol><li>A list</li></ol><p>Newline</p>"
     end
 
     it 'should parse correct' do
@@ -292,7 +292,7 @@ start with
 1. ul d'
       Minidown.render(str).should == '<ul><li>ul 1</li><li>ul 2
 <ul><li>ul 3</li><li>ul 4
-<ul><li>ul 5</li></ul></li><li>ul 6</li></ul></li></ul><br><ol><li>ul a</li><li>ul b</li><li>ul c</li><li>ul d</li></ol>'
+<ul><li>ul 5</li></ul></li><li>ul 6</li></ul></li></ul><ol><li>ul a</li><li>ul b</li><li>ul c</li><li>ul d</li></ol>'
     end
 
     it 'mixed list should parsed correct' do

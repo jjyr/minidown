@@ -26,7 +26,7 @@ bbbbbbbbb
 
 newline
 HERE
-      Minidown.render(str).should == '<blockquote><p>here block<br>here too<br>    yes<br>   all is block<br>bbbbbbbbb</p></blockquote><br><p>newline</p>'
+      Minidown.render(str).should == '<blockquote><p>here block<br>here too<br>    yes<br>   all is block<br>bbbbbbbbb</p></blockquote><p>newline</p>'
     end
 
     it 'should parse nest' do
@@ -42,7 +42,7 @@ still in block
 
 newline
 HERE
-      Minidown.render(str).should == '<blockquote><p>here block<br> here too<br>yes<br>   all is block</p><blockquote><p>two level<br>two too<br>still level two<br>still in block</p></blockquote></blockquote><br><p>newline</p>'
+      Minidown.render(str).should == '<blockquote><p>here block<br> here too<br>yes<br>   all is block</p><blockquote><p>two level<br>two too<br>still level two<br>still in block</p></blockquote></blockquote><p>newline</p>'
     end
   end
 
