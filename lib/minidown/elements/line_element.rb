@@ -13,7 +13,7 @@ module Minidown
     
     def parse
       node = nodes.last
-      @display = !(LineElement === node || ParagraphElement === node)
+      @display = (doc.within_block || TextElement === node)
       nodes << self
     end
 

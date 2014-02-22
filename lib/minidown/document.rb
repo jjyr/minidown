@@ -1,6 +1,7 @@
 module Minidown
   class Document
     attr_accessor :lines, :nodes, :links_ref, :options
+    attr_reader :within_block
 
     RefRegexp = {
       link_ref_define: /\A\s*\[(.+)\]\:\s+(\S+)\s*(.*)/,
@@ -15,7 +16,7 @@ module Minidown
       @options = options
       @lines = lines
       @nodes = []
-      @inblock = false
+      @within_block = false
       @links_ref = {}
     end
 
@@ -93,7 +94,7 @@ module Minidown
       when regexp[:code_block] =~ line
         # ``` or ~~~
         code_block $1
-      when !@inblock && pre_blank? && regexp[:indent_code] =~ line
+      when !@within_block && pre_blank? && regexp[:indent_code] =~ line
         #    code
         indent_code $1
       else
@@ -109,18 +110,18 @@ module Minidown
     end
 
     def inblock
-      if @inblock
+      if @within_block
         yield
       else
-        @inblock = true
+        @within_block = true
         yield
-        @inblock = false
+        @within_block = false
       end
     end
 
     def break_if_list line
       node = nodes.last
-      if @inblock && (UnorderListElement === node || OrderListElement === node)
+      if @within_block && (UnorderListElement === node || OrderListElement === node)
         @lines.unshift line
         nodes << nil
       else
