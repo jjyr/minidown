@@ -1,4 +1,7 @@
-# Minidown  [![Build Status](https://travis-ci.org/jjyr/minidown.png?branch=master)](https://travis-ci.org/jjyr/minidown)
+Minidown
+================================
+[![Gem Version](https://badge.fury.io/rb/minidown.png)](http://rubygems.org/gems/minidown)
+[![Build Status](https://travis-ci.org/jjyr/minidown.png?branch=master)](https://travis-ci.org/jjyr/minidown)
 
 Minidown is yet another markdown parser, with:
 
