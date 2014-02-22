@@ -17,8 +17,8 @@ module Minidown
     class << self
       def escape_html str
         sanitized_str = str.dup
-        sanitized_str.gsub! "<", "&lt;"
-        sanitized_str.gsub! ">", "&gt;"
+        sanitized_str.gsub! "<".freeze, "&lt;".freeze
+        sanitized_str.gsub! ">".freeze, "&gt;".freeze
         sanitized_str
       end
     end

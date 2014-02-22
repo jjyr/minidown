@@ -26,12 +26,12 @@ module Minidown
 
     def to_html
       if @extra
-        contents.map{|content| ParagraphElement.new(doc, content).to_html }.join ''
+        contents.map{|content| ParagraphElement.new(doc, content).to_html }.join ''.freeze
       else
         contents.map! do |line|
           build_element line
         end
-        build_tag 'p' do |content|
+        build_tag 'p'.freeze do |content|
           pre_elem = contents.shift
           content << pre_elem.to_html
           while elem = contents.shift

@@ -10,7 +10,7 @@ module Minidown
         @task_ul ||= true
         list = ListElement.new(doc, $2)
         list.task_list = true
-        list.checked = ($1 == 'x')
+        list.checked = ($1 == 'x'.freeze)
       else
         list = ListElement.new(doc, content)
       end
@@ -22,8 +22,8 @@ module Minidown
     
     def to_html
       attr = nil
-      attr = {class: 'task-list'} if @task_ul
-      build_tag 'ul', attr do |content|
+      attr = {class: 'task-list'.freeze} if @task_ul
+      build_tag 'ul'.freeze, attr do |content|
         children.each { |child| content << child.to_html}
       end
     end

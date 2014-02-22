@@ -98,13 +98,13 @@ module Minidown
                when Regexp[:email]
                  {href: "mailto:#{link}"}
                end
-        attr ? build_tag('a', attr){|a| a << link} : origin_str
+        attr ? build_tag('a'.freeze, attr){|a| a << link} : origin_str
       end
            
       #parse * _
       Regexp.values_at(:star, :underline).each do |regex|
         str.gsub! regex do |origin_str|
-          tag_name = $1.size > 1 ? 'strong' : 'em'
+          tag_name = $1.size > 1 ? 'strong'.freeze : 'em'.freeze
           build_tag tag_name do |tag|
             tag << $2
           end
@@ -113,7 +113,7 @@ module Minidown
 
       #parse ~~del~~
       str.gsub! Regexp[:delete_line] do |origin_str|
-        build_tag 'del' do |tag|
+        build_tag 'del'.freeze do |tag|
           tag << $1
         end
       end
@@ -126,7 +126,7 @@ module Minidown
         if ref
           attr = {src: ref[:url], alt: alt}
           attr[:title] = ref[:title] if ref[:title] && !ref[:title].empty?
-          build_tag 'img', attr
+          build_tag 'img'.freeze, attr
           else
           origin_str
         end
@@ -141,7 +141,7 @@ module Minidown
         url = $1
         attr = {src: url, alt: alt}
         attr[:title] = title if title
-        build_tag 'img', attr
+        build_tag 'img'.freeze, attr
         end
       
       #convert link reference
@@ -152,7 +152,7 @@ module Minidown
         if ref
           attr = {href: ref[:url]}
           attr[:title] = ref[:title] if ref[:title] && !ref[:title].empty?
-          build_tag 'a', attr do |a|
+          build_tag 'a'.freeze, attr do |a|
             a << text
           end
         else
@@ -169,7 +169,7 @@ module Minidown
         url = $1
         attr = {href: url}
         attr[:title] = title if title
-        build_tag 'a', attr do |content|
+        build_tag 'a'.freeze, attr do |content|
           content << text
         end
       end
@@ -178,7 +178,7 @@ module Minidown
            
       #inline code
       str.gsub! Regexp[:inline_code] do |origin_str|
-        build_tag 'code' do |code|
+        build_tag 'code'.freeze do |code|
           code << escape_html($2)
         end
       end

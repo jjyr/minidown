@@ -4,7 +4,7 @@ module Minidown
       content = ''
       yield content if block_given?
       if attr
-        attr = attr.map{|k, v| "#{k}=\"#{v}\""}.join ' '
+        attr = attr.map{|k, v| "#{k}=\"#{v}\""}.join ' '.freeze
         "<#{name} #{attr}>#{content}</#{name}>"
       else
         "<#{name}>#{content}</#{name}>"

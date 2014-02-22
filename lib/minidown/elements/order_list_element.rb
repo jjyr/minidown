@@ -12,7 +12,7 @@ module Minidown
     end
     
     def to_html
-      build_tag 'ol' do |content|
+      build_tag 'ol'.freeze do |content|
         children.each { |child| content << child.to_html}
       end
     end

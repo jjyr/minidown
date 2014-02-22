@@ -1,8 +1,8 @@
 module Minidown
   class ListElement < Element
     attr_accessor :p_tag_content, :contents, :task_list, :checked
-    CheckedBox = '<input type="checkbox" class="task-list-item-checkbox" checked="" disabled="">'
-    UnCheckedBox = '<input type="checkbox" class="task-list-item-checkbox" disabled="">'
+    CheckedBox = '<input type="checkbox" class="task-list-item-checkbox" checked="" disabled="">'.freeze
+    UnCheckedBox = '<input type="checkbox" class="task-list-item-checkbox" disabled="">'.freeze
 
     def initialize *_
       super
@@ -17,16 +17,16 @@ module Minidown
         ParagraphElement === content ? content.text : content
       end if @p_tag_content
       content = list_content
-      content = build_tag('p'){|p| p << content} if @p_tag_content
+      content = build_tag('p'.freeze){|p| p << content} if @p_tag_content
       attr = nil
-      attr = {class: 'task-list-item'} if @task_list
-      build_tag 'li', attr do |li|
+      attr = {class: 'task-list-item'.freeze} if @task_list
+      build_tag 'li'.freeze, attr do |li|
         li << content
       end
     end
 
     def list_content
-      content = @contents.map(&:to_html).join(@p_tag_content ? br_tag : "\n")
+      content = @contents.map(&:to_html).join(@p_tag_content ? br_tag : "\n".freeze)
       if @task_list
         content = (@checked ? CheckedBox : UnCheckedBox) + content
       end

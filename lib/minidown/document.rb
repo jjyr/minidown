@@ -67,7 +67,7 @@ module Minidown
         # ======== or -------
         break_if_list line do
           lines.unshift next_line if next_line && !next_line.empty?
-          html_tag nodes.pop, (line[0] == '=' ? 'h1' : 'h2')
+          html_tag nodes.pop, (line[0] == '='.freeze ? 'h1'.freeze : 'h2'.freeze)
         end
       when regexp[:start_with_shape] =~ line
         # ####h4

@@ -27,7 +27,7 @@ module Minidown
     end
 
     def children_html
-      children.map(&:to_html).join("\n")
+      children.map(&:to_html).join("\n".freeze)
     end
 
     def to_html
@@ -35,8 +35,8 @@ module Minidown
         @code_block_handler.call(lang, children_html).to_s
       else
         attr = lang ? {class: lang} : nil
-        build_tag 'pre' do |pre|
-          pre << build_tag('code', attr){ |code| code << children_html }
+        build_tag 'pre'.freeze do |pre|
+          pre << build_tag('code'.freeze, attr){ |code| code << children_html }
         end
       end
     end

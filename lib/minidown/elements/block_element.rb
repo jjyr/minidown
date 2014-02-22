@@ -27,7 +27,7 @@ module Minidown
     end
 
     def to_html
-      build_tag 'blockquote' do |content|
+      build_tag 'blockquote'.freeze do |content|
         children.each do |child|
           content << child.to_html
         end
