@@ -3,9 +3,14 @@
 require 'minidown'
 require 'optparse'
 
-Usage = "Usage: minidown [FILE]"
+Banner =<<BANNER
+Minidown is a lightweight & fast markdown parser, with complete GFM support.
+
+Usage:
+minidown [FILE]
+BANNER
 OptionParser.new do |opts|
-  opts.banner = Usage
+  opts.banner = Banner
 
   opts.on_tail "-v", "--version", "Show current version" do |v|
     puts Minidown::VERSION
@@ -22,7 +27,7 @@ file = ARGV.first
 if file
   puts Minidown.render(open(file).read)
 else
-  $stderr.puts "Missing argument FILE"
-  $stderr.puts Usage
+  $stderr.puts Banner
+  $stderr.puts "\nNo [FILE] argument, exit"
   exit 1
 end
