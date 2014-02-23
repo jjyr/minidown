@@ -7,7 +7,7 @@ Minidown is yet another markdown parser, with:
 
 * **Complete** [GFM](https://help.github.com/articles/github-flavored-markdown) support.
 
-* **Lightweight**, not other dependencies.
+* **Lightweight**, no other dependencies.
 
 * Fast & **easy** to use.
 
