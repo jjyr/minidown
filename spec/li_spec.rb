@@ -122,6 +122,17 @@ start with
       #and indent'
       Minidown.render(str).should == "<ul><li>first\nstart with</li></ul><h1>and indent</h1>"
     end
+
+    it 'nested should parse correct' do
+      str = '* 1
+   * 2  
+   * 3
+* 4
+   * 5
+   * 6
+   * 7'
+     Minidown.render(str).should == "<ul><li>1<ul><li>2</li><li>3</li></ul></li><li>4<ul><li>5</li><li>6</li><li>7</li></ul></li></ul>"
+    end
   end
 
   describe 'ol' do
@@ -250,6 +261,17 @@ Hi.'
 start with
       #and indent'
       Minidown.render(str).should == "<ol><li>first\nstart with</li></ol><h1>and indent</h1>"
+    end
+
+    it 'nested should parse correct' do
+      str = '1. 1
+   2. 2  
+   3. 3
+4. 4
+   5. 5
+   6. 6
+   7. 7'
+      Minidown.render(str).should == "<ol><li>1<ol><li>2</li><li>3</li></ol></li><li>4<ol><li>5</li><li>6</li><li>7</li></ol></li></ol>"
     end
   end
 
