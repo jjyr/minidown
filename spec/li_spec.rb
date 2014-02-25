@@ -131,7 +131,9 @@ start with
    * 5
    * 6
    * 7'
-     Minidown.render(str).should == "<ul><li>1<ul><li>2</li><li>3</li></ul></li><li>4<ul><li>5</li><li>6</li><li>7</li></ul></li></ul>"
+     Minidown.render(str).should == '<ul><li>1
+<ul><li>2  </li><li>3</li></ul></li><li>4
+<ul><li>5</li><li>6</li><li>7</li></ul></li></ul>'
     end
   end
 
@@ -271,7 +273,9 @@ start with
    5. 5
    6. 6
    7. 7'
-      Minidown.render(str).should == "<ol><li>1<ol><li>2</li><li>3</li></ol></li><li>4<ol><li>5</li><li>6</li><li>7</li></ol></li></ol>"
+      Minidown.render(str).should == '<ol><li>1
+<ol><li>2  </li><li>3</li></ol></li><li>4
+<ol><li>5</li><li>6</li><li>7</li></ol></li></ol>'
     end
   end
 

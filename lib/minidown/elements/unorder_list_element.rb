@@ -1,7 +1,7 @@
 module Minidown
   class UnorderListElement < ListGroupElement
     TaskRegexp = /\A\[([ x])\](.+)/
-    NestRegexp = /\A(\s+)[*\-+]\s+(.+)/
+    NestRegexp = /\A(\s*)[*\-+]\s+(.+)/
     ListRegexp = Minidown::Utils::Regexp[:unorder_list]
 
     def initialize doc, line, indent_level = 0

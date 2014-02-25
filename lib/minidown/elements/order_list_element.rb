@@ -1,6 +1,6 @@
 module Minidown
   class OrderListElement < ListGroupElement
-    NestRegexp = /\A(\s+)\d+\.\s+(.+)/
+    NestRegexp = /\A(\s*)\d+\.\s+(.+)/
     ListRegexp = Minidown::Utils::Regexp[:order_list]
     
     def initialize doc, line, indent_level = 0
