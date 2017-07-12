@@ -12,6 +12,12 @@ Minidown is yet another markdown parser, with:
 * Fast & **easy** to use.
 
 
+## Project Deprecated !!!
+
+Please use kramdown instead
+https://github.com/gettalong/kramdown
+
+
 ## Installation
 
 Add this line to your application's Gemfile:
